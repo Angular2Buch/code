@@ -29,7 +29,7 @@ class Article{
 
 @Component({
   selector: 'reddit-article',
-  properties: ['article']
+  properties: {'article' : 'article'}
 })
 @View({
   template: `
@@ -48,6 +48,8 @@ class Article{
   `
 })
 class RedditArticle {
+  article: Article;
+  
   voteUp(){
     this.article.voteUp();
     // Stops event propagation and avoids browser reload
@@ -81,7 +83,8 @@ class RedditArticle {
 
     <reddit-article
       *for="#article of articles"
-      [article]="article"></reddit-article>
+      [article]="article">
+    </reddit-article>
   `
 })
 class RedditApp {
@@ -102,8 +105,9 @@ class RedditApp {
   }
 
   addArticle(title, link) {
-    console.log('Addign article with title', title.value,
-                'and link', link.value)
+    this.articles.push(new Article(title.value, link.value));
+    title.value = '';
+    link.value  = '';
   }
 }
 

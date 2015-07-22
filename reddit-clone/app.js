@@ -39,7 +39,7 @@ var RedditArticle = (function () {
     RedditArticle = __decorate([
         angular2_1.Component({
             selector: 'reddit-article',
-            properties: ['article']
+            properties: { 'article': 'article' }
         }),
         angular2_1.View({
             template: "\n    <article>\n      <div class=\"votes\">{{ article.votes }}</div>\n      <div class=\"main\">\n        <h2>\n          <a href=\"{{ article.link }}\">{{ article.title }}</a>\n        </h2>\n        <ul>\n          <li><a href (click)=\"voteUp()\">upvote</a></li>\n          <li><a href (click)=\"voteDown()\">downvote</a></li>\n        </ul>\n      </div>\n    </article>\n  "
@@ -57,7 +57,9 @@ var RedditApp = (function () {
         ];
     }
     RedditApp.prototype.addArticle = function (title, link) {
-        console.log('Addign article with title', title.value, 'and link', link.value);
+        this.articles.push(new Article(title.value, link.value));
+        title.value = '';
+        link.value = '';
     };
     RedditApp = __decorate([
         angular2_1.Component({
@@ -65,7 +67,7 @@ var RedditApp = (function () {
         }),
         angular2_1.View({
             directives: [RedditArticle, angular2_1.For],
-            template: "\n    <section class=\"new-link\">\n      <div class=\"control-group\">\n        <div><label for=\"title\">Title:</label></div>\n        <div><input name=\"title\" #newtitle></div>\n      </div>\n      <div class=\"control-group\">\n        <div><label for=\"link\">Link:</label></div>\n        <div><input name=\"link\" #newlink/></div>\n      </div>\n\n      <button (click)=\"addArticle(newtitle, newlink)\">Submit link</button>\n    </section>\n\n    <reddit-article\n      *for=\"#article of articles\"\n      [article]=\"article\"></reddit-article>\n  "
+            template: "\n    <section class=\"new-link\">\n      <div class=\"control-group\">\n        <div><label for=\"title\">Title:</label></div>\n        <div><input name=\"title\" #newtitle></div>\n      </div>\n      <div class=\"control-group\">\n        <div><label for=\"link\">Link:</label></div>\n        <div><input name=\"link\" #newlink/></div>\n      </div>\n\n      <button (click)=\"addArticle(newtitle, newlink)\">Submit link</button>\n    </section>\n\n    <reddit-article\n      *for=\"#article of articles\"\n      [article]=\"article\">\n    </reddit-article>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], RedditApp);
