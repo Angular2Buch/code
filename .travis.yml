@@ -11,7 +11,7 @@ env:
 install:
 - cd $TEST_DIR
 - npm install
-- 'node_modules/protractor/bin/webdriver-manager update --standalone --firefox'
+- 'node_modules/protractor/bin/webdriver-manager update'
 
 # see http://docs.travis-ci.com/user/gui-and-headless-browsers/
 before_script:
