@@ -1,0 +1,13 @@
+{
+  "name": "e2e-angular-buch",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "webdriver-manager update",
+    "start": "webdriver-manager start",
+    "test": "protractor protractor.conf.js"
+  },
+  "author": "Johannes Hoppe <http://haushoppe-its.de>",
+  "license": "MIT"
+}
