@@ -24,3 +24,8 @@ before_script:
 
 script:
 - npm test
+
+# whitelist - by default, gh-pages branch is not built unless you add it to the whitelist.
+branches:
+  only:
+    - gh-pages
