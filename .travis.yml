@@ -11,7 +11,7 @@ env:
 install:
 - cd $TEST_DIR
 - npm install
-- 'node_modules/protractor/bin/webdriver-manager update --standalone --firefox'
+- npm run-script travis-prestart
 
 # see http://docs.travis-ci.com/user/gui-and-headless-browsers/
 before_script:
@@ -23,7 +23,7 @@ before_script:
 # TODO: start own webserver (not gh-pages)
 
 script:
-- npm test
+- npm run-script travis-test
 
 # whitelist - by default, gh-pages branch is not built unless you add it to the whitelist.
 branches:
