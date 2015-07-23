@@ -5,5 +5,10 @@ exports.config = {
     // TODO: this is only a temporary solution
     onPrepare: function() {
         browser.ignoreSynchronization = true;
+    },
+
+    // Travis uses something called xvfb (XVirtual Frame Buffer), which uses Firefox exclusively.
+    capabilities: {
+      'browserName': 'firefox'
     }
 };
