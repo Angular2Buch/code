@@ -3,5 +3,5 @@ Quelltexte, Snippets, mal schauen...
 
 ## Beispiele
 
-* hello-world
-* reddit-clone
+* [hello-world](https://angular2buch.de/code/hello-world)
+* [reddit-clone](https://angular2buch.de/code/reddit-clone)
