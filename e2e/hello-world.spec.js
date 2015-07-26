@@ -6,7 +6,7 @@ var waitForAngularReady = function () {
 
 describe('Hello World example', function() {
 
-    var url = 'https://angular2buch.de/code/hello-world/';
+    var url = 'http://code.angular2buch.de/hello-world/';
 
     beforeEach(function() {
       browser.get(url);
