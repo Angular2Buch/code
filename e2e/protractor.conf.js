@@ -4,7 +4,7 @@ var config = {
 
     onPrepare: function() {
         browser.ignoreSynchronization = true;
-    }
+    },
 
     capabilities: {
       'browserName': 'chrome'
