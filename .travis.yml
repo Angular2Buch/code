@@ -29,5 +29,4 @@ branches:
 
 # using Sauce Labs
 addons:
-  sauce_connect:
-    direct_domains: angular2buch.de
+  sauce_connect: true
