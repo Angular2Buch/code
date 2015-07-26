@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - '0.12'
 
-# for testing multiple subdirectories (in future)
+# for testing multiple subdirectories
 # see: https://lord.io/blog/2014/travis-multiple-subdirs/
 env:
 - TEST_DIR=e2e
@@ -11,7 +11,6 @@ env:
 install:
 - cd $TEST_DIR
 - npm install
-- npm run-script travis-prestart
 
 # see http://docs.travis-ci.com/user/gui-and-headless-browsers/
 before_script:
@@ -20,12 +19,14 @@ before_script:
 - 'node_modules/protractor/bin/webdriver-manager start 2>&1 &'
 - sleep 3
 
-# TODO: start own webserver (not gh-pages)
-
 script:
-- npm run-script travis-test
+- npm test
 
 # whitelist - by default, gh-pages branch is not built unless you add it to the whitelist.
 branches:
   only:
     - gh-pages
+
+# using Sauce Labs
+addons:
+  sauce_connect: true

@@ -5,10 +5,7 @@
   "scripts": {
     "prestart": "webdriver-manager update",
     "start": "webdriver-manager start",
-    "test": "protractor protractor.conf.js",
-
-    "travis-prestart": "webdriver-manager update --standalone --firefox",
-    "travis-test": "protractor protractor.travis.conf.js"
+    "test": "protractor protractor.conf.js"
   },
   "repository": {
     "type": "git",
