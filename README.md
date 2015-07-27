@@ -5,5 +5,5 @@ Quelltexte, Snippets, mal schauen...
 
 ## Beispiele
 
-* [hello-world](code/hello-world)
+* [hello-world](hello-world)
 * [reddit-clone](reddit-clone)
