@@ -1,19 +1,12 @@
 {
-  "name": "hello-word-demo",
+  "name": "hello-word-example",
   "version": "0.0.1",
-  "description": "",
+  "description": "hello world example",
   "scripts": {
-    "prestart": "tsc",
-    "start": "http-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Angular2Buch/code"
+    "start": "tsc"
   },
   "license": "ISC",
   "devDependencies": {
-    "http-server": "^0.8.0",
     "typescript": "^1.5.3"
   }
 }

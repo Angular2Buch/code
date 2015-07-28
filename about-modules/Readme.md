@@ -19,7 +19,7 @@ SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende
 
 Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie folgt einbinden:
 
-> example1.html
+> [example1.html](example1.html)
 
 ```js
 <script src='/party/jspm/system.js'></script>
