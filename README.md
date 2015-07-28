@@ -5,5 +5,6 @@ Quelltexte, Snippets, mal schauen...
 
 ## Beispiele
 
+* [about-modules](about-modules)
 * [hello-world](hello-world)
 * [reddit-clone](reddit-clone)

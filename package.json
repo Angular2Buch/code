@@ -8,7 +8,7 @@
   "license": "ISC",
   "devDependencies": {
     "http-server": "^0.8.0"
-  }, 
+  },
   "jspm": {
     "directories": {},
     "dependencies": {
