@@ -14,7 +14,7 @@ Der "ES6 Module Loader Polyfill" stellt einen Kernstück für das neue ES6-getri
 
 Folgendes ES6 Modul:
 
-```
+```js
 export class Test {
   constructor() {
     console.log('This is a Constructor!');
@@ -23,18 +23,19 @@ export class Test {
 ```
 > [es6_module.js](es6_module.js)
 
-Kann mithilfe des Polyfills geladen und ausgeführt werden.
-    <script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
-    <script src="/jspm_packages/es6-module-loader.js"></script>
+...kann mithilfe des Polyfills geladen und ausgeführt werden:
+```js
+<script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
+<script src="/jspm_packages/es6-module-loader.js"></script>
 
-    <script>
-      System.import('es6_module').then(function(module) {
-        var test = new module.Test();
-      });
-    </script>
+<script>
+  System.import('es6_module').then(function(module) {
+    var test = new module.Test();
+  });
+</script>
+```
 
-
-Für die ES6 Features (wie z.B. import) benötigt einen Transpiler. Standardmäßig ist dies Traceur.  Es lässt sich jedoch auch TypeScript verwenden.
+Für die ES6 Features (wie z.B. dem Constructor) benötigt einen man Transpiler. Standardmäßig ist dies Traceur. Das Script `traceur.js` wird automatisch von Polyfill nachgeladen, was im vorliegenden Fall zu einem Fehler 404 (Not Found) führen würde. In der ersten Zeile wird dem Fehler 404 entgegen gewirkt. Es lässt sich übrigens auch TypeScript als Transpiler einsetzen verwenden.
 
 
 Schreibt man ein spezielles Script Tag `<script type="module">` so kann man in diesem Tag ES6 Features sicher verwenden. Die Umwandlung geschieht zur Laufzeit. 
@@ -68,7 +69,7 @@ Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie fo
       });
 </script>
 ```
-> [example1.html](example1.html)
+> [es6_module.js](es6_module.js)
 
 
 Standardmäßig lädt SystemJS auch gleich den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen.  
