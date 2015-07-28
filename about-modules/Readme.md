@@ -1,6 +1,83 @@
 # Modulere Code
 
-Angular baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 bereits in heutigen Browsern ermöglicht.
+Angular baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht.
+
+In der Webwelt steht das Wort "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es häufig darum, standardisierte Funkionen in alten Internet-Explorern nachzurüsten. Zunehmend werden aber auch mit Polyfills Funktionen hinzugefügt, die noch gar nicht standardisiert wurden und daher von kaum einem Browser ganz oder nur teilweise unterstützt werden.
+
+## ES6 Module Loader Polyfill
+
+
+Der "ES6 Module Loader Polyfill" stellt einen Kernstück für das neue ES6-getriebene Modul-System von Angular dar. Unter anderem liefert er:
+* einen asynchronen Modul-Loader für ES6-Module entsprechend des ES6-Spezifikation (`System.import`)
+* die Möglichkeit, einen so genannten Transpiler [Traceur](https://github.com/google/traceur-compiler), [Babel](http://babeljs.io/) oder [TypeScript](https://github.com/Microsoft/TypeScript/) direkt im Browser zu verwenden. 
+* das spezielle Script Tag `<script type="module">` in dem man ES6 Code-schreiben kann
+
+Folgendes ES6 Modul:
+
+```
+export class Test {
+  constructor() {
+    console.log('This is a Constructor!');
+  }
+}
+```
+> [es6_module.js](es6_module.js)
+
+Kann mithilfe des Polyfills geladen und ausgeführt werden.
+    <script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
+    <script src="/jspm_packages/es6-module-loader.js"></script>
+
+    <script>
+      System.import('es6_module').then(function(module) {
+        var test = new module.Test();
+      });
+    </script>
+
+
+Für die ES6 Features (wie z.B. import) benötigt einen Transpiler. Standardmäßig ist dies Traceur.  Es lässt sich jedoch auch TypeScript verwenden.
+
+
+Schreibt man ein spezielles Script Tag `<script type="module">` so kann man in diesem Tag ES6 Features sicher verwenden. Die Umwandlung geschieht zur Laufzeit. 
+
+
+
+
+
+
+## Traceur & Traceur runtime
+
+Traceur ist ein Transpiler von Google, welcher ECMAScript 6 JavaScript in ECMAScript 5 JavaScript umwandeln kann. Zu Traceur gehört ein CLI-Script, welches die Kompilierung von ES6 nach ES5 vorab durchführt.
+
+
+
+
+
+# SystemJS
+
+SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des [ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader) unterstützt. 
+
+Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie folgt einbinden:
+
+```js
+<script src='/jspm_packages/system.js'></script>
+<script src='/config.js'></script>
+
+<script>
+    System.import('jquery').then(function($) {
+        $("body").text('Hello World!');
+      });
+</script>
+```
+> [example1.html](example1.html)
+
+
+Standardmäßig lädt SystemJS auch gleich den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen.  
+
+
+Zusätzlich benötigt man die Traceur runtime
+
+Traceur 
+
 
 # jspm
 
@@ -15,33 +92,17 @@ jspm install jquery
 
 Es wird bei der erstmaligen Verwendung eine Datei namens package.json angelegt. Unter dem Prefix "jspm" können alle Abhängigkeiten eingetragen werden. Wie bei npm lassen sich per `jspm install` bzw. `jspm update` später erneut alle Dateien herunter laden. Weiterhin wird eine Datei names `config.js` angelegt, über die unter anderem die zu verwendenden Pfade konfiguriert werden.
 
-# SystemJS
 
-SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des [ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader) unterstützt. 
 
-Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie folgt einbinden:
 
-> [example1.html](example1.html)
+## Angular
 
-```js
-<script src='/jspm_packages/system.js'></script>
-<script src='/config.js'></script>
+Auch Angular2 ist als per jspm installierbar.
+Der Befehl lautet:
 
-<script>
-    System.import('jquery').then(function($) {
-        $("body").text('Hello World!');
-      });
-</script>
-</script>
 ```
-
-Standardmäßig lädt SystemJS auch gleich den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass man dies bei einem korrektem Setup nicht per Script-Tag erledigt werden muss.  
-
-## ES6 Module Loader Polyfill
-
-
-
-
+jspm install angular2
+```
 
 <hr>
 
