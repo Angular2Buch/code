@@ -12,7 +12,7 @@ Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwick
 
 ## ES6 Module Loader Polyfill
 
-In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Es können aber auch mithilfe von Polyfills Funktionen hinzugefügt werden, die noch gar nicht standardisiert wurden und daher derzeit von kaum einem Browser ganz oder nur teilweise unterstützt werden.
+In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Es können aber auch mithilfe von Polyfills Funktionen hinzugefügt werden, die gerade erst standardisiert wurden und daher derzeit noch von keinem Browser vollständig unterstützt werden.
 
 Der "[ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader)" stellt einen Kernstück für das neue ES6-getriebene Modul-System von Angular2 dar.  
 Unter anderem liefert er:
@@ -53,27 +53,38 @@ Möchte man die ES6 Syntax nicht nur in geladenen Dateien, sondern auch in Scrip
 <script src="/jspm_packages/es6-module-loader.js"></script>
 
 <script type="module">
-    import {Test} from 'es6_module';
-    var test = new Test();
+  import {Test} from 'es6_module';
+  var test = new Test();
 </script>
 ```
 
 
 ## Traceur & Traceur runtime
 
-Das Transpiling von ES6 zur Laufzeit ist im produktiven Einsatz nicht sehr effizient. Es bietet sich an, den Code zwar in ES6 zu entwickeln, aber stets die Umwandlung bereits vorab durchzuführen. Zu Traceur gehört ein CLI-Script, welches das Transpiling bereits vorab durchführt.
+Das Transpiling von ES6 zur Laufzeit ist im produktiven Einsatz nicht sehr effizient. Es bietet sich an, den Code zwar in ES6 zu entwickeln, aber die Umwandlung stets vorab durchzuführen. Zu Traceur gehört ein Kommandozeilen-Script, welches das Transpiling durchführt. Folgende Befehle erzeugen eine Datei mit dem Namen `es5_module.js`:
 
 ```
 npm install -g traceur
 traceur --sourcemap --out es5_module.js es6_module.js --experimental
-
 ```
 
+Um die generierte Datei verwenden zu können, muss die "Traceur-runtime" (`traceur-runtime.js`) eingefügt werden. In dieser Runtime-Datei befinden sich notwendige Polyfills, welche die generierten ES5-Module zur fehlerfreien Ausführung dringend voraussetzen:
+
+```javascript
+<script src="/jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.88/traceur-runtime.js"></script>
+<script src="es5_module.js"></script>
+
+<script>
+  var Test = System.get("es6_module.js").Test;
+  var test = new Test();
+</script>
+``` 
+> [example_traceur-runtime.html](example_traceur-runtime.html)
 
 
 # SystemJS
 
-SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des [ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader) unterstützt.
+SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des **ES6 Module** Loader Polyfills unterstützt.
 
 Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie folgt einbinden:
 
@@ -82,15 +93,15 @@ Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie fo
 <script src='/config.js'></script>
 
 <script>
-    System.import('jquery').then(function($) {
-        $("body").text('Hello World!');
-      });
+  System.import('jquery').then(function($) {
+    $("body").text('Hello World!');
+  });
 </script>
 ```
 > [example_systemjs_jquery.html](example_systemjs_jquery.html)
 
 
-Standardmäßig lädt SystemJS auch gleich den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen.  
+SystemJS lädt immer auch den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen. Der 
 
 
 Zusätzlich benötigt man die Traceur runtime
