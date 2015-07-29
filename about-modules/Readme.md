@@ -65,7 +65,7 @@ Das Transpiling von ES6 zur Laufzeit ist im produktiven Einsatz nicht sehr effiz
 
 ```
 npm install -g traceur
-
+traceur --sourcemap --out es5_module.js es6_module.js --experimental
 
 ```
 
