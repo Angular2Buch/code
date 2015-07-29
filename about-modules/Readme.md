@@ -1,20 +1,28 @@
-# Modulere Code
+# Angular2 und Modulere Code
 
-Angular baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht.
+Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" von Angular2 beinhaltet folgende Zeilen, deren Bedeutung im folgendem Artikel intensiv betrachtet werden:
 
-In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Zunehmend werden aber auch mit Polyfills Funktionen hinzugefügt, die noch gar nicht standardisiert wurden und daher von kaum einem Browser ganz oder nur teilweise unterstützt werden.
+```javascript
+<script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
+<script src="https://jspm.io/system@0.16.js"></script>
+<script src="https://code.angularjs.org/2.0.0-alpha.28/angular2.dev.js"></script>
 
+<script>System.import('app');</script>
+```
 
 ## ES6 Module Loader Polyfill
 
-Der "ES6 Module Loader Polyfill" stellt einen Kernstück für das neue ES6-getriebene Modul-System von Angular dar. Unter anderem liefert er:
-* einen asynchronen Modul-Loader für ES6-Module entsprechend des ES6-Spezifikation (`System.import`)
+In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Es können aber auch mithilfe von Polyfills Funktionen hinzugefügt werden, die noch gar nicht standardisiert wurden und daher derzeit von kaum einem Browser ganz oder nur teilweise unterstützt werden.
+
+Der "[ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader)" stellt einen Kernstück für das neue ES6-getriebene Modul-System von Angular2 dar.  
+Unter anderem liefert er:
+* einen asynchronen Modul-Loader für ES6-Module entsprechend der ES6-Spezifikation (`System.import`).
 * die Möglichkeit, einen so genannten Transpiler [Traceur](https://github.com/google/traceur-compiler), [Babel](http://babeljs.io/) oder [TypeScript](https://github.com/Microsoft/TypeScript/) direkt im Browser zu verwenden.
-* das spezielle Script Tag `<script type="module">` in dem man ES6 Code-schreiben kann
+* das spezielle Script Tag `<script type="module">` in dem man ES6 Code-schreiben kann.
 
 Folgendes ES6 Modul:
 
-```js
+```javascript
 export class Test {
   constructor() {
     document.body.innerText = 'This is a Constructor!';
@@ -24,7 +32,7 @@ export class Test {
 > [es6_module.js](es6_module.js)
 
 ...kann mithilfe des ES6 Module Loader Polyfill geladen und ausgeführt werden:
-```js
+```javascript
 <script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
 <script src="/jspm_packages/es6-module-loader.js"></script>
 
@@ -36,21 +44,30 @@ export class Test {
 ```
 > [example_es6.html](example_es6.html)
 
-Für die Verwendung von ES6 Features (wie z.B. hier der Klasse) benötigt man einen Transpiler. Der Polyfill verwendet standardmäßig Traceur. Das Script `traceur.js` wird daher automatisch vom Polyfill nachgeladen, was im vorliegenden Fall zu einem Fehler 404 (Not Found) führen würde. In der ersten Zeile wird dem Fehler 404 entgegen gewirkt, indem die benötigte Datei vorab eingebunden ist. Es lässt sich übrigens auch TypeScript als Transpiler einsetzen.
+Für die Verwendung von ES6 Features (wie z.B. hier der Klasse) benötigt man einen Transpiler, welcher ECMAScript 6 in ECMAScript 5 umwandelt, damit der Code in jedem Browser ausführbar ist. Der Polyfill verwendet standardmäßig den Transpiler Traceur, welcher von Google entwickelt wird. Das Script `traceur.js` wird daher automatisch vom Polyfill nachgeladen, sofern es nicht bereits vorhanden ist. Aufgrund der verwendeten Ordnerstruktur würde es im vorliegenden Fall zu einem Fehler 404 (Not Found) kommen. Mit dem ersten Script-Tag wird dem Fehler 404 entgegen gewirkt, indem die benötigte Datei vorab eingebunden wird und das Nachladen nicht mehr notwendig ist.
 
+Möchte man die ES6 Syntax nicht nur in geladenen Dateien, sondern auch in Script-Tags verwenden, so ist dies mit heutigen Browsern nicht direkt möglich. Der Browser würde das JavaScript sofort ausführen und die unbekannten Schlüsselwörter mit einer Exception bemängeln. Mithilfe des Script-Tags `<script type="module">` kann man hingegen die ES6 Features sicher verwenden, da der Browser aufgrund des unbekannten Type den Inhalt ignoriert. Das Transpiling geschieht erneut zur Laufzeit.
 
-Möchte man die ES6 Syntax auch in Script-Tags verwenden, so ist dies nicht sofort möglich. Der Browser würde das JavaScript sofort ausführen und Schreibt man ein spezielles Script Tag `<script type="module">` so kann man in diesem Tag ES6 Features sicher verwenden. Die Umwandlung geschieht zur Laufzeit.
+```javascript
+<script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
+<script src="/jspm_packages/es6-module-loader.js"></script>
 
-
-
-
+<script type="module">
+    import {Test} from 'es6_module';
+    var test = new Test();
+</script>
+```
 
 
 ## Traceur & Traceur runtime
 
-Traceur ist ein Transpiler von Google, welcher ECMAScript 6 JavaScript in ECMAScript 5 JavaScript umwandeln kann. Zu Traceur gehört ein CLI-Script, welches die Kompilierung von ES6 nach ES5 vorab durchführt.
+Das Transpiling von ES6 zur Laufzeit ist im produktiven Einsatz nicht sehr effizient. Es bietet sich an, den Code zwar in ES6 zu entwickeln, aber stets die Umwandlung bereits vorab durchzuführen. Zu Traceur gehört ein CLI-Script, welches das Transpiling bereits vorab durchführt.
+
+```
+npm install -g traceur
 
 
+```
 
 
 
