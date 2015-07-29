@@ -101,12 +101,7 @@ Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie fo
 > [example_systemjs_jquery.html](example_systemjs_jquery.html)
 
 
-SystemJS lädt immer auch den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen. Der 
-
-
-Zusätzlich benötigt man die Traceur runtime
-
-Traceur
+SystemJS lädt immer auch den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen.
 
 
 # jspm
@@ -133,10 +128,3 @@ Der Befehl lautet:
 ```
 jspm install angular2
 ```
-
-<hr>
-
-Quellen:
-
-* [](http://jspm.io/)
-* [Angular: 5 MIN QUICKSTART](https://angular.io/docs/js/latest/quickstart.html)
