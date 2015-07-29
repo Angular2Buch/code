@@ -1,5 +1,5 @@
 export class Test {
   constructor() {
-    console.log('This is a Constructor!');
+    document.body.innerText = 'This is a Constructor!';
   }
 }
