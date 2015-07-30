@@ -81,7 +81,7 @@ Um die generierte Datei verwenden zu können, muss die "Traceur-runtime" (`trace
 ``` 
 > [example_traceur-runtime.html](example_traceur-runtime.html)
 
-Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt, Angular2 benötigt in Alpha 28 (und folgende) noch die Polyfills aus der traceur-runtime um fehlerfrei zu funktionieren. Dies ist noch ein Überbleibsel aus der Zeit, in der Angular mit [AtScript](http://atscript.org/) entwickelt wurde. Traceur kann nicht nur ES6-Code sondern auch AtScript-Code (ein Superset von JavaScript) nach ES5 transpilieren. Da das Angular-Team die Entwicklung von AtScript zugunsten von TypeScript eingestelt hat, wird aktiv an der Entfernung dieser letzten Hinweise auf AtScript gearbeitet. (siehe [#2335](https://github.com/angular/angular/issues/2335) und [#2829](https://github.com/angular/angular/issues/2829)) Einige Polyfills werden dann sicherlich direkt mit Angular zusammen ausgeliefert werden.
+Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt, Angular2 benötigt in Alpha 28 (und folgende) noch die Polyfills aus der traceur-runtime um fehlerfrei zu funktionieren. Dies ist noch ein Überbleibsel aus der Zeit, in der Angular mit [AtScript](http://atscript.org/) entwickelt wurde. Traceur kann nicht nur ES6-Code sondern auch AtScript-Code (ein Superset von JavaScript) nach ES5 transpilieren. Da das Angular-Team die Entwicklung von AtScript zugunsten von TypeScript eingestelt hat, wird aktiv an der Entfernung dieser letzten Hinweise auf AtScript gearbeitet. (siehe z.B.s [#2335](https://github.com/angular/angular/issues/2335) und [#2829](https://github.com/angular/angular/issues/2829)) Einige Polyfills werden dann sicherlich direkt mit Angular zusammen ausgeliefert werden.
 
 
 # SystemJS
