@@ -1,13 +1,13 @@
 # Angular2 und Modulere Code
 
-Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" von Angular2 beinhaltet folgende Zeilen, deren Bedeutung im folgendem Artikel intensiv betrachtet werden:
+Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" von Angular2 (Alpha 28) beinhaltet folgende Zeilen, deren verwendete Technologien im folgendem Artikel intensiv betrachtet werden:
 
 ```javascript
-<script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
-<script src="https://jspm.io/system@0.16.js"></script>
-<script src="https://code.angularjs.org/2.0.0-alpha.28/angular2.dev.js"></script>
+<!-- Zeile 1 --><script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
+<!-- Zeile 2 --><script src="https://jspm.io/system@0.16.js"></script>
+<!-- Zeile 3 --><script src="https://code.angularjs.org/2.0.0-alpha.28/angular2.dev.js"></script>
 
-<script>System.import('app');</script>
+<!-- Zeile 4 --><script>System.import('app');</script>
 ```
 
 ## ES6 Module Loader Polyfill
@@ -80,6 +80,8 @@ Um die generierte Datei verwenden zu können, muss die "Traceur-runtime" (`trace
 </script>
 ``` 
 > [example_traceur-runtime.html](example_traceur-runtime.html)
+
+Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt, Angular2 benötigt in Alpha 28 (und folgende) noch die Polyfills aus der traceur-runtime um fehlerfrei zu funktionieren. Dies ist noch ein Überbleibsel aus der Zeit, in der Angular mit [AtScript](http://atscript.org/) entwickelt wurde. Traceur kann nicht nur ES6-Code sondern auch AtScript-Code (ein Superset von JavaScript) nach ES5 transpilieren. Da das Angular-Team die Entwicklung von AtScript zugunsten von TypeScript eingestelt hat, wird aktiv an der Entfernung dieser letzten Hinweise auf AtScript gearbeitet. (siehe [#2335](https://github.com/angular/angular/issues/2335) und [#2829](https://github.com/angular/angular/issues/2829)) Einige Polyfills werden dann sicherlich direkt mit Angular zusammen ausgeliefert werden.
 
 
 # SystemJS
