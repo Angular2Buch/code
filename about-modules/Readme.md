@@ -68,7 +68,7 @@ npm install -g traceur
 traceur --sourcemap --out es5_module.js es6_module.js --experimental
 ```
 
-Um die generierte Datei verwenden zu können, muss die "Traceur-runtime" (`traceur-runtime.js`) eingefügt werden. In dieser Runtime-Datei befinden sich notwendige Polyfills, welche die generierten ES5-Module zur fehlerfreien Ausführung dringend voraussetzen:
+Um die generierte Datei verwenden zu können, muss die **Traceur-Runtime** (`traceur-runtime.js`) eingefügt werden. In dieser Runtime-Datei befinden sich notwendige Polyfills, welche die generierten ES5-Module zur fehlerfreien Ausführung zwingend voraussetzen:
 
 ```javascript
 <script src="/jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.88/traceur-runtime.js"></script>
@@ -81,12 +81,14 @@ Um die generierte Datei verwenden zu können, muss die "Traceur-runtime" (`trace
 ``` 
 > [example_traceur-runtime.html](example_traceur-runtime.html)
 
-Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt, Angular2 benötigt in Alpha 28 (und folgende) noch die Polyfills aus der traceur-runtime um fehlerfrei zu funktionieren. Dies ist noch ein Überbleibsel aus der Zeit, in der Angular mit [AtScript](http://atscript.org/) entwickelt wurde. Traceur kann nicht nur ES6-Code sondern auch AtScript-Code (ein Superset von JavaScript) nach ES5 transpilieren. Da das Angular-Team die Entwicklung von AtScript zugunsten von TypeScript eingestelt hat, wird aktiv an der Entfernung dieser letzten Hinweise auf AtScript gearbeitet. (siehe z.B.s [#2335](https://github.com/angular/angular/issues/2335) und [#2829](https://github.com/angular/angular/issues/2829)) Einige Polyfills werden dann sicherlich direkt mit Angular zusammen ausgeliefert werden.
+Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt, Angular2 benötigt in Alpha 28 (und folgenden Versionen) noch die Polyfills aus der traceur-runtime um fehlerfrei zu funktionieren. Dies ist noch ein Relikt aus der Zeit, in der Angular mit [AtScript](http://atscript.org/) entwickelt wurde. Traceur kann nicht nur ES6-Code sondern auch AtScript-Code (ein Superset von JavaScript) nach ES5 transpilieren. Da das Angular-Team die Entwicklung von AtScript zugunsten von TypeScript eingestelt hat, wird aktiv an der Entfernung dieser letzten Hinweise auf AtScript gearbeitet. (siehe z.B. [#2335](https://github.com/angular/angular/issues/2335) und [#2829](https://github.com/angular/angular/issues/2829)) In Zukunft wird Angular2 sicherlich direkt mit allen notwendige Polyfills zusammen ausgeliefert werden.
 
 
 # SystemJS
 
-SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des **ES6 Module** Loader Polyfills unterstützt.
+In **Zeile 2** sieht man die Verwendung von [SystemJS](https://github.com/systemjs/systemjs). 
+
+SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des bereits vorgestellten **ES6 Module** Loader Polyfills unterstützt.
 
 Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie folgt einbinden:
 
@@ -108,7 +110,7 @@ SystemJS lädt immer auch den "ES6 Module Loader Polyfill" (`es6-module-loader.j
 
 # jspm
 
-jspm ist ein Paketmanager, welcher im "5 MIN QUICKSTART" von Angular verwendet wird. Die Verwendung von jspm ist nicht zwingend erforderlich, es erleichtert die Einbindung aller weiterer Pakete jedoch enorm. Jene Pakete können aus dem [npm](npmjs.com)-registry oder direkt aus Github Repositorien stammen. Im Falle eines Github-Repositories werden fertige Versionen mittels Git-Tags markiert. Dies entspricht dem Vorgehen von [bower](http://bower.io). Jspm ist für die Verwendung von [SystemJS](https://github.com/systemjs/systemjs) ausgelegt.
+jspm ist ein Paketmanager, welcher indirekt im "5 MIN QUICKSTART" von Angular verwendet wird. Die Verwendung von jspm ist nicht zwingend erforderlich, es erleichtert die Einbindung aller weiterer Pakete jedoch enorm. Jene Pakete können aus dem [npm](npmjs.com)-registry oder direkt aus Github Repositorien stammen. Im Falle eines Github-Repositories werden fertige Versionen mittels Git-Tags markiert. Dies entspricht dem Vorgehen von [bower](http://bower.io). Hervorzuheben ist die Verwendung einer flachen Ordnerstruktur (mit Versionsnummern in den Pfaden), was ebenso dem Ansatz von Bower entspricht. Jspm ist für die Verwendung mittels [SystemJS](https://github.com/systemjs/systemjs) ausgelegt.
 
 Mit folgendem Befehlen lässt sich die aktuellste Version jQuery von dessen Github-Repository herunter zu laden:
 
@@ -117,9 +119,9 @@ npm install -g jspm
 jspm install jquery
 ```
 
-Es wird bei der erstmaligen Verwendung eine Datei namens package.json angelegt. Unter dem Prefix "jspm" können alle Abhängigkeiten eingetragen werden. Wie bei npm lassen sich per `jspm install` bzw. `jspm update` später erneut alle Dateien herunter laden. Weiterhin wird eine Datei names `config.js` angelegt, über die unter anderem die zu verwendenden Pfade konfiguriert werden.
+Wird `jspm install` auf ein leeres Verzeichnis angewendet, so erscheint der Assistent welcher auch durch `jspm init` gestartet werden kann. Obwohl man jquery angefordert hat, wird zusätzlich SystemJS sowie dessen Abhängigkeiten herunter geladen.  Es wird durch `jspm init` eine Datei namens package.json angelegt. Unter dem Prefix "jspm" können alle gewünschten Abhängigkeiten eingetragen werden. Wie bei npm lassen sich per `jspm install` bzw. `jspm update` später erneut alle Dateien herunter laden. Weiterhin wird eine Datei names `config.js` angelegt, über die unter anderem die zu verwendenden Pfade konfiguriert werden.
 
-
+Alle in den bisherigen Beispielen gezeigten Bibliotheken wurden mit jspm herunter geladen und unter Versionsverwaltung gestellt. Das Quickstart-Beispiel verwendet hingegen das experimentelle CDN (Content Delivery Network) von jspm.io, welches auch online eine flache Ordnerstruktur verwendet. 
 
 
 ## Angular
