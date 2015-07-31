@@ -1,4 +1,5 @@
 # Angular2 und Modulere Code
+*Stand: 2015-07-31*
 
 Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" von Angular2 (Alpha 28) beinhaltet folgende Zeilen, deren verwendete Technologien im folgendem Artikel intensiv betrachtet werden:
 
@@ -14,7 +15,7 @@ Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwick
 
 In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Es können aber auch mithilfe von Polyfills Funktionen hinzugefügt werden, die gerade erst standardisiert wurden und daher derzeit noch von keinem Browser vollständig unterstützt werden.
 
-Der "[ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader)" stellt einen Kernstück für das neue ES6-getriebene Modul-System von Angular2 dar.  
+Der "[ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader)" ist ein bekanntes Tool für die Entwicklung von ECMAScript 6 Anwendungen.  
 Unter anderem liefert er:
 * einen asynchronen Modul-Loader für ES6-Module entsprechend der ES6-Spezifikation (`System.import`).
 * die Möglichkeit, einen so genannten Transpiler [Traceur](https://github.com/google/traceur-compiler), [Babel](http://babeljs.io/) oder [TypeScript](https://github.com/Microsoft/TypeScript/) direkt im Browser zu verwenden.
@@ -84,9 +85,10 @@ Um die generierte Datei verwenden zu können, muss die **Traceur-Runtime** (`tra
 Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt, Angular2 benötigt in Alpha 28 (und folgenden Versionen) noch die Polyfills aus der traceur-runtime um fehlerfrei zu funktionieren. Dies ist noch ein Relikt aus der Zeit, in der Angular mit [AtScript](http://atscript.org/) entwickelt wurde. Traceur kann nicht nur ES6-Code sondern auch AtScript-Code (ein Superset von JavaScript) nach ES5 transpilieren. Da das Angular-Team die Entwicklung von AtScript zugunsten von TypeScript eingestelt hat, wird aktiv an der Entfernung dieser letzten Hinweise auf AtScript gearbeitet. (siehe z.B. [#2335](https://github.com/angular/angular/issues/2335) und [#2829](https://github.com/angular/angular/issues/2829)) In Zukunft wird Angular2 sicherlich direkt mit allen notwendige Polyfills zusammen ausgeliefert werden.
 
 
-# SystemJS
+# SystemJS 0.16
 
-In **Zeile 2** sieht man die Verwendung von [SystemJS](https://github.com/systemjs/systemjs). 
+In **Zeile 2** sieht man die Verwendung von [SystemJS](https://github.com/systemjs/systemjs).
+Erwähnenswert ist die Versionsnummer 0.16. Ab Version 0.1.7 gibt es Breaking Changes, die weiter unten besprochen werden.    
 
 SystemJS ist ein "universaler Module-Loader" und integriert diverse existierende Modul-Formate (ES6, AMD, CommonJS oder auch globale Objekte). Durch die Integration von **CommonJS** können Module verwendet werden, welche ursprünglich für [Browserify](http://browserify.org/) gedacht waren. Ebenso lassen sich **AMD**-Module verwenden, welche üblicherweise über [require.js](http://requirejs.org/) geladen werden. Zusätzlich werden auch direkt ES6-Module mittels des bereits vorgestellten **ES6 Module** Loader Polyfills unterstützt.
 
@@ -105,12 +107,12 @@ Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie fo
 > [example_systemjs_jquery.html](example_systemjs_jquery.html)
 
 
-SystemJS lädt immer auch den "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen Funktionalitäten stets auch zur Verfügung stehen.
+SystemJS lädt in dieser Version immer auch den bereits vorgestellten "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen gesamte Funktionalitäten stets auch zur Verfügung stehen.
 
 
-# jspm
+# jspm 0.15.x
 
-jspm ist ein Paketmanager, welcher indirekt im "5 MIN QUICKSTART" von Angular verwendet wird. Die Verwendung von jspm ist nicht zwingend erforderlich, es erleichtert die Einbindung aller weiterer Pakete jedoch enorm. Jene Pakete können aus dem [npm](npmjs.com)-registry oder direkt aus Github Repositorien stammen. Im Falle eines Github-Repositories werden fertige Versionen mittels Git-Tags markiert. Dies entspricht dem Vorgehen von [bower](http://bower.io). Hervorzuheben ist die Verwendung einer flachen Ordnerstruktur (mit Versionsnummern in den Pfaden), was ebenso dem Ansatz von Bower entspricht. Jspm ist für die Verwendung mittels [SystemJS](https://github.com/systemjs/systemjs) ausgelegt.
+jspm ist ein Paketmanager, welcher **indirekt** im "5 MIN QUICKSTART" von Angular verwendet wird. Die Verwendung von jspm ist nicht zwingend erforderlich, es erleichtert die Einbindung aller weiterer Pakete jedoch enorm. Jene Pakete können aus dem [npm](npmjs.com)-registry oder direkt aus Github Repositorien stammen. Im Falle eines Github-Repositories werden fertige Versionen mittels Git-Tags markiert. Dies entspricht dem Vorgehen von [bower](http://bower.io). Hervorzuheben ist die Verwendung einer flachen Ordnerstruktur (mit Versionsnummern in den Pfaden), was ebenso dem Ansatz von Bower entspricht. Jspm ist für die Verwendung mittels [SystemJS](https://github.com/systemjs/systemjs) ausgelegt. Jspm 0.15.x beinhaltet SystemJS 0.16.x.
 
 Mit folgendem Befehlen lässt sich die aktuellste Version jQuery von dessen Github-Repository herunter zu laden:
 
@@ -124,11 +126,24 @@ Wird `jspm install` auf ein leeres Verzeichnis angewendet, so erscheint der Assi
 Alle in den bisherigen Beispielen gezeigten Bibliotheken wurden mit jspm herunter geladen und unter Versionsverwaltung gestellt. Das Quickstart-Beispiel verwendet hingegen das experimentelle CDN (Content Delivery Network) von jspm.io, welches auch online eine flache Ordnerstruktur verwendet. 
 
 
-## Angular
+## Angular2 mit jspm (erster Versuch)
 
-Auch Angular2 ist als per jspm installierbar.
-Der Befehl lautet:
+Das Angular2 noch in der Entwicklung steckt, merkt man dann, wenn man nicht ein vorgefertigtes Bundle verwendet. Idealerweise müsste der Befehl schlicht lauteten:
 
 ```
 jspm install angular2
 ```
+
+Dies installiert jedoch nur einen Teil der notwendigen Dateien. Mit moderatem Aufwand wäre es sicher möglich, eine lauffähige Version von Angular2 mittels des aktuellen jspm /SystemJS und ES6-Polyfill herunter zu laden und zu bauen. Da die Informationen bald wieder veraltet sein werden, bleibt dieser Abschnitt ungeschrieben.
+
+
+# jspm 0.16.x (beta) und SystemJS 0.17/01.8 
+
+
+Zum Zeitpunkt des Erstellens dieses Artikels war jspm 0.15.7 die aktuellste Version.
+Entscheidet man sich für die Beta Version von jspm (aktuell 0.16.0-beta.3), so erhält man die komplett erneuerte Version von SystemJS (aktuell SystemJS 0.18.0).    
+
+```
+npm install -g jspm@beta
+```
+
