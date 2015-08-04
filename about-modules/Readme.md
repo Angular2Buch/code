@@ -84,10 +84,10 @@ Um die generierte Datei verwenden zu können, muss die **Traceur-Runtime** (`tra
 
 Damit wäre **Zeile 1** aus dem 5-Minuten Quickstart geklärt. Diese hier verwendete Version von Angular2 benötigt noch die **Traceur-Runtime** um fehlerfrei zu funktionieren (Fehler: "[$traceurRuntime is undefined](https://github.com/angular/angular.io/issues/102)". 
 
-Ganz konkret handelt es sich bei `angular2.dev.js` um ein Bundle, welches mit dem [SystemJS Build Tool ](https://www.npmjs.com/package/systemjs-builder) erstellt wurde (siehe [hier](https://github.com/angular/angular/blob/master/tools/build/bundle.js#L13) und [hier](https://github.com/angular/angular/blob/705d3aacff4005483f8ecbff5fc2d484b3e38cf5/gulpfile.js#L671)). SystemJS verwendet wiederum Traceur, was die die Notwendigkeit für die Runtime erklärt. Es würde sich eigentlich anbieten, dass Angular2-Bundle direkt mit der notwendige Runtime zusammen auszuliefern. Entsprechend der Kommentare aus [#2829](https://github.com/angular/angular/issues/2829) wird aber bereits daran gearbeitet, Traceur komplett aus dem Build zu entfernen. Dies ist auch deswegen konsequent, da die eigentlichen Quelltexte bereits alle auf TypeScript umgestellt wurden (siehe [#2335](https://github.com/angular/angular/issues/2335)).
+Ganz konkret handelt es sich bei `angular2.dev.js` um ein ES5-kompatibles Bundle, welches mit dem [SystemJS Build Tool ](https://www.npmjs.com/package/systemjs-builder) erstellt wurde (siehe [hier](https://github.com/angular/angular/blob/master/tools/build/bundle.js#L13) und [hier](https://github.com/angular/angular/blob/705d3aacff4005483f8ecbff5fc2d484b3e38cf5/gulpfile.js#L671)). SystemJS verwendet wiederum Traceur, was die die Notwendigkeit für die Runtime erklärt. Es würde sich eigentlich anbieten, dass Angular2-Bundle direkt mit der notwendige Runtime zusammen auszuliefern. Entsprechend der Kommentare aus [#2829](https://github.com/angular/angular/issues/2829) wird aber bereits daran gearbeitet, Traceur komplett aus dem Build zu entfernen. Dies ist auch deswegen konsequent, da die eigentlichen Quelltexte bereits alle auf TypeScript umgestellt wurden (siehe [#2335](https://github.com/angular/angular/issues/2335)).
 
 
-# SystemJS 0.16
+## SystemJS <small>(0.16)</small>
 
 In **Zeile 2** sieht man die Verwendung von [SystemJS](https://github.com/systemjs/systemjs).
 Erwähnenswert ist die Versionsnummer 0.16. Ab Version 0.1.7 gibt es Breaking Changes, die weiter unten besprochen werden.    
@@ -109,10 +109,10 @@ Das bekannte Framework jQuery (als AMD-Modul verwendbar) lässt sich z.B. wie fo
 > [example_systemjs_jquery.html](example_systemjs_jquery.html)
 
 
-SystemJS lädt in dieser Version immer auch den bereits vorgestellten "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen gesamte Funktionalitäten stets auch zur Verfügung stehen.
+SystemJS lädt in dieser Version immer auch den bereits vorgestellten "ES6 Module Loader Polyfill" (`es6-module-loader.js`) nach, so dass dessen gesamte Funktionalitäten stets zur Verfügung stehen.
 
 
-# jspm 0.15.x
+## jspm <small>(0.15.x)</small>
 
 jspm ist ein Paketmanager, welcher **indirekt** im "5 MIN QUICKSTART" von Angular verwendet wird. Die Verwendung von jspm ist nicht zwingend erforderlich, es erleichtert die Einbindung aller weiterer Pakete jedoch enorm. Jene Pakete können aus der [npm](npmjs.com)-registry oder direkt aus Github Repositorien stammen. Im Falle eines Github-Repositoriums werden fertige Versionen mittels Git-Tags markiert. Dies entspricht dem Vorgehen von [bower](http://bower.io). Hervorzuheben ist die Verwendung einer flachen Ordnerstruktur (mit Versionsnummern in den Pfaden), was ebenso dem Ansatz von Bower entspricht. Jspm ist für die Verwendung mittels [SystemJS](https://github.com/systemjs/systemjs) ausgelegt. Jspm 0.15.x beinhaltet SystemJS 0.16.x.
 
@@ -125,20 +125,21 @@ jspm install jquery
 
 Wird `jspm install` auf ein leeres Verzeichnis angewendet, so erscheint der Assistent welcher auch durch `jspm init` gestartet werden kann. Obwohl man jquery angefordert hat, wird zusätzlich SystemJS sowie dessen Abhängigkeiten herunter geladen.  Es wird durch `jspm init` eine Datei namens package.json angelegt. Unter dem Prefix "jspm" können alle gewünschten Abhängigkeiten eingetragen werden. Wie bei npm lassen sich per `jspm install` bzw. `jspm update` später erneut alle Dateien herunter laden. Weiterhin wird eine Datei names `config.js` angelegt, über die unter anderem die zu verwendenden Pfade konfiguriert werden.
 
-Alle in den bisherigen Beispielen gezeigten Bibliotheken wurden mit jspm herunter geladen und unter Versionsverwaltung gestellt. Das Quickstart-Beispiel verwendet hingegen das experimentelle CDN (Content Delivery Network) von jspm.io, welches auch online eine flache Ordnerstruktur verwendet. 
+Alle in den bisherigen Beispielen gezeigten Bibliotheken wurden mit jspm herunter geladen und unter Versionsverwaltung gestellt. Das Quickstart-Beispiel verwendet hingegen das experimentelle CDN (Content Delivery Network) von jspm.io, welches auch online eine flache Ordnerstruktur verwendet. Ein produktiver Einsatz des experimentellen CDN wird nicht empfohlen! 
 
 
-# Angular2 bauen
+## Angular2 bauen
 
 Nachdem das Bundle `angular2.dev.js` bereits verwendet wurde, bietet es sich an, diese Datei auch selbst zu erzeugen. Dies gestaltet sich als vergleichsweise einfach, das die diversen Schritte mittels des Automatisierungstools [Gulp](https://github.com/gulpjs/gulp) vereinfacht wurden. Nachdem Angular2 vom [Github-Repository](https://github.com/angular/angular) herunter geladen wurde, muss Gulp zunächst installiert und dann ausgeführt werden.  
 
 
 ```
+npm install
 npm install -g gulp
-gulp 
-
+gulp build
 ```
 
+Es werden eine Reihe von Dateien im Ordner 'dist' erzeugt.
 
 
 
@@ -147,22 +148,19 @@ gulp
 
 
 
-## Angular2 mit jspm (erster Versuch)
-
-Das Angular2 noch in der Entwicklung steckt, merkt man dann, wenn man nicht ein vorgefertigtes Bundle verwendet. Idealerweise müsste der Befehl schlicht lauteten:
-
-```
-jspm install angular2
-```
-
-Dies installiert jedoch nur einen Teil der notwendigen Dateien. Mit moderatem Aufwand wäre es sicher möglich, eine lauffähige Version von Angular2 mittels des aktuellen jspm /SystemJS und ES6-Polyfill herunter zu laden und zu bauen. Da die Informationen bald wieder veraltet sein werden, bleibt dieser Abschnitt ungeschrieben.
-
-
-# jspm 0.16.x (beta) und SystemJS 0.17/01.8 
+## Experimentell: Angular2 mit jspm bauen
+### jspm 0.16.x (beta) und SystemJS 0.17/01.8 
 
 
 Zum Zeitpunkt des Erstellens dieses Artikels war jspm 0.15.7 die aktuellste Version.
-Entscheidet man sich für die Beta Version von jspm (aktuell 0.16.0-beta.3), so erhält man die komplett erneuerte Version von SystemJS (aktuell SystemJS 0.18.0).    
+
+Entscheidet man sich für die neueste Beta Version von jspm (aktuell 0.16.0-beta.3), so erhält man die komplett erneuerte Version von SystemJS (aktuell SystemJS 0.18.0). Das größte Änderung ist dadurch gegeben, dass der ES6 Module Loader Polyfill nicht mehr verwendet wird. 
+
+Aktuell verlangt der Angular build noch systemjs
+
+
+
+   
 
 ```
 npm install -g jspm@beta
