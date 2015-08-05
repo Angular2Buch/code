@@ -1,7 +1,7 @@
 # Angular2 und Modulere Code
 *Stand: 2015-08-04*
 
-Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" von Angular2 (basiert derzeit noch auf Version Alpha 28) beinhaltet folgende Zeilen, deren verwendete Technologien im folgendem Artikel intensiv betrachtet werden:
+Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" von Angular2 beinhaltet folgende Zeilen, deren verwendete Technologien im folgendem Artikel intensiv betrachtet werden sollen:
 
 ```javascript
 <!-- Zeile 1 --><script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
@@ -13,7 +13,7 @@ Angular2 baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwick
 
 ## ES6 Module Loader Polyfill
 
-In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Es können aber auch mithilfe von Polyfills Funktionen hinzugefügt werden, die gerade erst standardisiert wurden und daher derzeit noch von keinem Browser vollständig unterstützt werden.
+In der Webwelt steht der Begriff "Poylfill" für ein Software, welche fehlende JavaScrip-Funktionalitäten im Browser zur Verfügung stellt. In der Vergangenheit ging es bei Polyfills häufig darum, standardisierte Funkionen in alten Internet-Explorer Versionen nachzurüsten. Es können aber auch mithilfe von Polyfills Funktionen hinzugefügt werden, die gerade erst definiert wurden und daher noch von keinem Browser vollständig unterstützt werden.
 
 Der "[ES6 Module Loader Polyfills](https://github.com/ModuleLoader/es6-module-loader)" ist ein bekanntes Tool für die Entwicklung von ECMAScript 6 Anwendungen.  
 Unter anderem liefert er:
@@ -122,7 +122,7 @@ jspm install jquery
 
 Wird `jspm install` auf ein leeres Verzeichnis angewendet, so erscheint der Assistent welcher auch durch `jspm init` gestartet werden kann. Obwohl man jquery angefordert hat, wird zusätzlich SystemJS sowie dessen Abhängigkeiten herunter geladen.  Es wird durch `jspm init` eine Datei namens package.json angelegt. Unter dem Prefix "jspm" können alle gewünschten Abhängigkeiten eingetragen werden. Wie bei npm lassen sich per `jspm install` bzw. `jspm update` später erneut alle Dateien herunter laden. Weiterhin wird eine Datei names `config.js` angelegt, über die unter anderem die zu verwendenden Pfade konfiguriert werden.
 
-Alle in den bisherigen Beispielen gezeigten Bibliotheken wurden mit jspm herunter geladen und unter Versionsverwaltung gestellt. Das Quickstart-Beispiel verwendet hingegen das experimentelle CDN (Content Delivery Network) von jspm.io, welches auch online eine flache Ordnerstruktur verwendet. Ein produktiver Einsatz des experimentellen CDN wird nicht empfohlen! 
+Alle in den bisherigen Beispielen gezeigten Bibliotheken wurden mit jspm herunter geladen und unter Versionsverwaltung gestellt. Das Quickstart-Beispiel verwendet hingegen das CDN (Content Delivery Network) von jspm.io. Ein produktiver Einsatz des CDN ist noch nicht empfehlenswert, da das CDN noch als experimentell bezeichnet wird! 
 
 
 ## Angular2 bauen
@@ -139,6 +139,16 @@ Es werden eine Reihe von Dateien im Ordner 'dist' erzeugt. Das besagte Bundle be
 
 
 Ganz konkret handelt es sich bei `angular2.dev.js` um ein ES5-kompatibles Bundle, welches mit dem [SystemJS Build Tool](https://www.npmjs.com/package/systemjs-builder) erstellt wurde (siehe [hier](https://github.com/angular/angular/blob/master/tools/build/bundle.js#L13) und [hier](https://github.com/angular/angular/blob/705d3aacff4005483f8ecbff5fc2d484b3e38cf5/gulpfile.js#L671)). SystemJS verwendet wiederum Traceur, was die die Notwendigkeit für die Runtime erklärt. Es würde sich eigentlich anbieten, dass Angular2-Bundle direkt mit der notwendige Runtime zusammen auszuliefern. Entsprechend der Kommentare aus [#2829](https://github.com/angular/angular/issues/2829) wird aber bereits daran gearbeitet, Traceur komplett aus dem Build zu entfernen. Dies ist auch deswegen konsequent, da die Quelltexte bereits alle auf TypeScript umgestellt wurden (siehe [#2335](https://github.com/angular/angular/issues/2335)).
+
+Die anderen Fragmente aus diesem Build findet man im [NPM-Paket von Angular2](https://www.npmjs.com/package/angular2): 
+
+
+| Build-Verzeichnis         | Verzeichnis im [NPM-Paket](https://www.npmjs.com/package/angular2) | JavaScript-Version | Modul-Format |Erklärung
+|---------------------------|--------------------------|---------------
+| dist/js/bundle            | (kein)                   | ECMAScript&nbsp;5 | SystemJS (`System.register()`) | transpiliertes Bundle für SystemJS, Verfügbar auf [code.angularjs.org](https://code.angularjs.org/)
+| dist/js/cjs/angular2      | ./ (root folder)         | ECMAScript&nbsp;5 | CommonJS (`exports.XXX = XXX`) | Einzelne Dateien, verwendbar mit Browserify, sowie TypeScript type definitions (*.d.ts)
+| dist/js/dev/es6/angular2  | es6/dev                  | ECMAScript&nbsp;6 | ES6 (`export * from XXX`)      | Einzelne Dateien mit Prüfungen zur Laufzeit ([run-time type assertion library](https://www.npmjs.com/package/rtts-assert)), sowie TypeScript type definitions (*.d.ts)
+| dist/js/prod/es6/angular2 | es6/prod                 | ECMAScript&nbsp;6 | ES6 (`export * from XXX`)      | Einzelne Dateien ohne Prüfungen zur Laufzeit, sowie TypeScript type definitions (*.d.ts)
 
 
 
