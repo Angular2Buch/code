@@ -16,9 +16,7 @@
 <a name="einleitung"></a>
 ## 1. Einleitung
 
-Google liefert mit dem "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" einen ersten Einstieg in die Entwicklung mit Angular2. In dem Quickstart wird unter anderem beschrieben, wie man eine einfache Komponente erstellt. Zum Einsatz kommt der Transpiler TypeScript von Microsoft.
-
-Das Beispiel baut auf einer Reihe von Frameworks auf, welche die zukünftige Entwicklung von Webanwendungen mittels ECMAScript 6 (kurz "ES6") bereits in heutigen Browsern ermöglicht. Der Quickstart beinhaltet dabei folgende Zeilen, deren verwendete Technologien in diesem Artikel intensiv betrachtet werden sollen:
+Google liefert mit dem "[5 Min Quickstart](https://angular.io/docs/js/latest/quickstart.html)" einen ersten Einstieg in die Entwicklung mit Angular2. In dem Quickstart wird unter anderem beschrieben, wie man eine einfache Komponente erstellt. Zum Einsatz kommt der Transpiler TypeScript von Microsoft, welcher eine Datei Namens `app.js` erzeugt. Das Beispiel baut auf einer Reihe von Frameworks auf, um diese Datei zu laden und auszuführen:
 
 ```javascript
 <!-- Zeile 1 --><script src="https://github.jspm.io/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime.js"></script>
@@ -28,7 +26,9 @@ Das Beispiel baut auf einer Reihe von Frameworks auf, welche die zukünftige Ent
 <!-- Zeile 4 --><script>System.import('app');</script>
 ```
 
-Das vollständige "5 Min Quickstart" Beispiel finden Sie [hier](angular_quickstart-alpha28/index.html).
+Hinter diesen vier Zeilen verbirgt sich ein Strauß an Technologien - unter anderem Traceur, jspm, SystemJS, TypeSript und natürlich Angular. Das Angular-Team setzt durch die Auswahl dieser Technologien massiv auf die Entwicklung mittels ECMAScript 6. Eigentlich wird ECMAScript 6 (kurz "ES6") derzeit noch von keinem Browser vollständig unterstützt. Doch durch die gelungene Auswahl an bestehenden Frameworks ist dennoch möglich, bereits mit heutigen Browsern eine Anwendung auf Grundlage von ES6 zu entwickeln. Die notwendige Tools sollen in diesem Artikel intensiv betrachtet werden.
+
+Das vollständige "5 Min Quickstart" Beispiel finden Sie [hier](angular_quickstart-alpha28/index.html). Alle gezeigten Befehle setzen voraus, dass Node.js auf dem Entwicklungsrecher installiert ist.
 
 
 <a name="es6module"></a>
@@ -53,7 +53,8 @@ export class Test {
 ```
 > [es6_module.js](es6_module.js)
 
-...kann mithilfe des ES6 Module Loader Polyfill geladen und ausgeführt werden:
+...kann mithilfe des ES6 Module Loader Polyfill geladen und sofort ausgeführt werden:
+
 ```javascript
 <script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
 <script src="/jspm_packages/es6-module-loader.js"></script>
@@ -66,9 +67,9 @@ export class Test {
 ```
 > [example_es6.html](example_es6.html)
 
-Für die Verwendung von ES6 Features (wie z.B. hier der Klasse) benötigt man einen Transpiler, welcher ECMAScript 6 in ECMAScript 5 umwandelt, damit der Code in jedem Browser ausführbar ist. Der Polyfill verwendet standardmäßig den Transpiler Traceur, welcher von Google entwickelt wird. Das Script `traceur.js` wird daher automatisch vom Polyfill nachgeladen, sofern es nicht bereits vorhanden ist. Aufgrund der verwendeten Ordnerstruktur würde es im vorliegenden Fall zu einem Fehler 404 (Not Found) kommen. Mit dem ersten Script-Tag wird dem Fehler 404 entgegen gewirkt, indem die benötigte Datei vorab eingebunden wird und das Nachladen nicht mehr notwendig ist.
+Für die Verwendung von ES6 Features (wie z.B. einer Klasse) benötigt man einen Transpiler, welcher ECMAScript 6 in ECMAScript 5 umwandelt, damit der Code in jedem Browser ausführbar ist. Der Polyfill verwendet standardmäßig den Transpiler Traceur, welcher von Google entwickelt wird. Die Umwandlung des Quellcodes geschieht direkt im Browser, sogar eine "SourceMap" steht für ein komfortables Debugging zur Verfügung. Das Script `traceur.js` wird automatisch vom Polyfill nachgeladen, sofern es nicht bereits vorhanden ist. Aufgrund der verwendeten Ordnerstruktur würde es im vorliegenden Fall zu einem Fehler 404 (Not Found) kommen. Mit dem ersten Script-Tag wird dem Fehler 404 entgegen gewirkt, indem die benötigte Datei vorab eingebunden wird und das Nachladen nicht mehr notwendig ist.
 
-Möchte man die ES6 Syntax nicht nur in geladenen Dateien, sondern auch in Script-Tags verwenden, so ist dies mit heutigen Browsern nicht direkt möglich. Der Browser würde das JavaScript sofort ausführen und die unbekannten Schlüsselwörter mit einer Exception bemängeln. Mithilfe des Script-Tags `<script type="module">` kann man hingegen die ES6 Features sicher verwenden, da der Browser aufgrund des unbekannten Typs den Inhalt ignoriert. Das Transpiling geschieht erneut zur Laufzeit.
+Möchte man die ES6 Syntax nicht nur in geladenen Dateien, sondern auch in Script-Tags verwenden, so ist dies mit heutigen Browsern nicht direkt möglich. Der Browser würde den Code sofort ausführen und die unbekannten Schlüsselwörter mit einer Exception bemängeln. Mithilfe des Script-Tags `<script type="module">` kann man hingegen die ES6 Features sicher verwenden, da der Browser aufgrund des unbekannten Typs den Inhalt ignoriert. Das Transpiling geschieht erneut zur Laufzeit.
 
 ```javascript
 <script src="/jspm_packages/github/jmcriffey/bower-traceur@0.0.88/traceur.js"></script>
@@ -92,7 +93,7 @@ npm install -g traceur
 traceur --sourcemap --out es5_module.js es6_module.js --experimental
 ```
 
-Um die generierte Datei verwenden zu können, muss die **Traceur-Runtime** (`traceur-runtime.js`) eingefügt werden. In dieser Runtime-Datei befinden sich der Code für das globale Object `$traceurRuntime` sowie eine Reihe von Polyfills, welche die generierten ES5-Module zur fehlerfreien Ausführung zwingend voraussetzen:
+Um die generierte Datei verwenden zu können, muss eine passende Datei Namens `traceur-runtime.js`. eingefügt werden. Der Sinn dieser **Traceur-Runtime** besteht vorwiegend darin, mehrfach benötigten Code in den einzelnen transpilierten Dateien zu vermeiden, was später Traffic spart. In dieser Datei befinden sich der Code für das häufig verwendete globale Object `$traceurRuntime` sowie eine Reihe von Polyfills. Ohne die Runtime ist der generierten ES5-Code nicht lauffähig. 
 
 ```javascript
 <script src="/jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.88/traceur-runtime.js"></script>
@@ -330,7 +331,7 @@ Die Anleitung zu dem Laden per JSPM basiert zum Teil auf folgendem Gist:
 <a name="fazit"></a>
 ## 8. Fazit
 
-Im Vergleich zu Angular1 hat sich hinsichtlich der modularität von AngularJS einiges verbessert.
+Verglichen mit der Version 1 hat sich bei AngularJS hinsichtlich der Modularität vieles zum Positiven entwickelt. AngularJS verwendete lediglich ein globales Objekt, so dass man die Qual der Wahl zwischen den Modulformaten AMD und CommonJS hatte. Die Lösung bestand dann darin, AngularJS mittels "Shims" in das gewählte Format zu pressen. Nun legt sich Angular fest, indem es auf ECMAScript 6 Module setzt. Diese wiederrum lassen sich auch als CommonJS Module abbilden, so dass auch ECMAScript 5 Entwickler keine Einschnitte hinnehmen müssen. Das Highlight ist ganz klar die Kompatibilität und der Einsatz des universalen Modul-Loaders SystemJS. Egal in welchem Format weitere Abhängigkeiten vorliegen, sie werden sich ohne großen Aufwand in eine Angular2 Anwendung integrieren lassen.
 
 <hr>
 *Stand: 2015-08-04*
