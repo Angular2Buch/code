@@ -23,8 +23,8 @@ class Item {
 * Component for shopping list items
 */
 @Component({
-  selector: 'shopping-item',
-  properties: {'item' : 'item'} 
+  selector: 'tbody',
+  properties: {'item' : 'item'}
 })
 @View({
   templateUrl: 'templates/item.html'
@@ -32,7 +32,7 @@ class Item {
 class ShoppingItem {
   item: Item;
 
-  toggleChecked(thisItem) {
+  toggleChecked(thisItem: Item) {
     thisItem.checked = !thisItem.checked;
   }
 }
@@ -64,11 +64,11 @@ class ShoppingApp {
   }
 
   /** add a new item to shopping list */
-  addItem(name, quantity) {
+  addItem(name: String, quantity: String) {
     console.log(name, quantity);
-    this.items.push(new Item(name.value, quantity.value, false));
-    name.value = '';
-    quantity.value  = '';
+    this.items.push(new Item(name, quantity, false));
+    name = null;
+    quantity  = null;
   }
 
   /** check all items in list */

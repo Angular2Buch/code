@@ -4,25 +4,23 @@
   </div>
   <div class="panel-body">
     <form class="form-inline">
-      <div class="form-group">
+      <div class="form-group" style="padding-top: 20px;">
         <label class="col-md-3" for="name">Name</label>
         <div class="col-md-3">
-          <input class="form-control input-lg" placeholder="e.g. Beer" type="text" name="name" #newName autofocus />
+          <input #inputName class="form-control input-lg" placeholder="e.g. Beer" type="text" name="name" autofocus />
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" style="padding-top: 20px;">
         <label class="col-md-3" for="quantity">Quantity</label>
         <div class="col-md-3">
-          <input class="form-control input-lg" placeholder="1" type="text" name="quantity" #newQuantity />
+          <input #inputQuantity class="form-control input-lg" placeholder="1" type="text" name="quantity" />
         </div>
       </div>
-      <button class="btn btn-primary btn-fab btn-raised mdi-content-add pull-right" type="submit" (click)="addItem(newName, newQuantity)" onclick="return false;"></button>
+      <button (click)="addItem(inputName, inputQuantity)"  class="btn btn-primary btn-fab btn-raised mdi-content-add pull-right" type="submit"onclick="return false;"></button>
     </form>
   </div>
   <table class="table table-striped table-hover table-bordered">
-    <tbody>
-      <shopping-item *for="#item of items" [item]="item"></shopping-item>
-    </tbody>
+    <tbody id="shoppingItem" *for="#item of items" [item]="item"></tbody>
   </table>
 
   <div class="panel-footer">

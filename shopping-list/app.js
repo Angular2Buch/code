@@ -27,7 +27,7 @@ var ShoppingItem = (function () {
     };
     ShoppingItem = __decorate([
         angular2_1.Component({
-            selector: 'shopping-item',
+            selector: 'tbody',
             properties: { 'item': 'item' }
         }),
         angular2_1.View({
@@ -50,9 +50,9 @@ var ShoppingApp = (function () {
     }
     ShoppingApp.prototype.addItem = function (name, quantity) {
         console.log(name, quantity);
-        this.items.push(new Item(name.value, quantity.value, false));
-        name.value = '';
-        quantity.value = '';
+        this.items.push(new Item(name, quantity, false));
+        name = null;
+        quantity = null;
     };
     ShoppingApp.prototype.checkAll = function () {
         for (var i = 0; i < this.items.length; i++) {

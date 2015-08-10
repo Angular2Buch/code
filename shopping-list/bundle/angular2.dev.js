@@ -1467,7 +1467,7 @@ var Reflect;
         if (typeof O !== "function" || O === functionPrototype) {
             return proto;
         }
-        // TypeScript doesn't set __proto__ in ES5, as it's non-standard. 
+        // TypeScript doesn't set __proto__ in ES5, as it's non-standard.
         // Try to determine the superclass constructor. Compatible implementations
         // must either set __proto__ on a subclass constructor to the superclass constructor,
         // or ensure each class has a valid `constructor` property on its prototype that
