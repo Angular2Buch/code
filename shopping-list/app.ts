@@ -1,6 +1,7 @@
 /// <reference path="./typings/angular2/angular2"/>
 
-import {Component, View, For, bootstrap} from 'angular2/angular2';
+import {Component, View, NgFor, bootstrap} from 'angular2/angular2';
+import {formDirectives, FormBuilder, ControlGroup} from "angular2/angular2";
 
 /**
 * Item class - data holder for shopping list items
@@ -24,7 +25,7 @@ class Item {
 */
 @Component({
   selector: 'tbody',
-  properties: {'item' : 'item'}
+  properties: ['item'],
 })
 @View({
   templateUrl: 'templates/item.html'
@@ -46,7 +47,7 @@ class ShoppingItem {
   selector: 'shopping'
 })
 @View({
-  directives: [ShoppingItem, For],
+  directives: [ShoppingItem, NgFor, formDirectives],
   templateUrl: 'templates/main.html'
 })
 class ShoppingApp {

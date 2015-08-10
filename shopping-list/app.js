@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
+var angular2_2 = require("angular2/angular2");
 var Item = (function () {
     function Item(name, quantity, checked) {
         this.name = name;
@@ -28,7 +29,7 @@ var ShoppingItem = (function () {
     ShoppingItem = __decorate([
         angular2_1.Component({
             selector: 'tbody',
-            properties: { 'item': 'item' }
+            properties: ['item'],
         }),
         angular2_1.View({
             templateUrl: 'templates/item.html'
@@ -75,7 +76,7 @@ var ShoppingApp = (function () {
             selector: 'shopping'
         }),
         angular2_1.View({
-            directives: [ShoppingItem, angular2_1.For],
+            directives: [ShoppingItem, angular2_1.NgFor, angular2_2.formDirectives],
             templateUrl: 'templates/main.html'
         }), 
         __metadata('design:paramtypes', [])
@@ -83,3 +84,4 @@ var ShoppingApp = (function () {
     return ShoppingApp;
 })();
 angular2_1.bootstrap(ShoppingApp);
+//# sourceMappingURL=app.js.map
