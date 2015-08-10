@@ -1,4 +1,3 @@
-/// <reference path="./typings/angular2/angular2"/>
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
     switch (arguments.length) {
@@ -11,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
-var angular2_2 = require("angular2/angular2");
+var _ = require('lodash');
 var Item = (function () {
     function Item(name, quantity, checked) {
         this.name = name;
@@ -50,33 +49,23 @@ var ShoppingApp = (function () {
         ];
     }
     ShoppingApp.prototype.addItem = function (name, quantity) {
-        console.log(name, quantity);
         this.items.push(new Item(name, quantity, false));
-        name = null;
-        quantity = null;
     };
     ShoppingApp.prototype.checkAll = function () {
-        for (var i = 0; i < this.items.length; i++) {
-            this.items[i].checked = true;
-        }
+        _.each(this.items, function (item) { item.checked = true; });
     };
     ShoppingApp.prototype.uncheckAll = function () {
-        for (var i = 0; i < this.items.length; i++) {
-            this.items[i].checked = false;
-        }
+        _.each(this.items, function (item) { item.checked = false; });
     };
     ShoppingApp.prototype.deleteChecked = function () {
-        for (var i = this.items.length - 1; i >= 0; i--) {
-            if (this.items[i].checked)
-                this.items.splice(i, 1);
-        }
+        _.remove(this.items, function (item) { return item.checked; });
     };
     ShoppingApp = __decorate([
         angular2_1.Component({
             selector: 'shopping'
         }),
         angular2_1.View({
-            directives: [ShoppingItem, angular2_1.NgFor, angular2_2.formDirectives],
+            directives: [ShoppingItem, angular2_1.NgFor],
             templateUrl: 'templates/main.html'
         }), 
         __metadata('design:paramtypes', [])

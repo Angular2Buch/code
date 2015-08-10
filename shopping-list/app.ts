@@ -1,7 +1,5 @@
-/// <reference path="./typings/angular2/angular2"/>
-
 import {Component, View, NgFor, bootstrap} from 'angular2/angular2';
-import {formDirectives, FormBuilder, ControlGroup} from "angular2/angular2";
+import _ = require('lodash');
 
 /**
 * Item class - data holder for shopping list items
@@ -47,7 +45,7 @@ class ShoppingItem {
   selector: 'shopping'
 })
 @View({
-  directives: [ShoppingItem, NgFor, formDirectives],
+  directives: [ShoppingItem, NgFor],
   templateUrl: 'templates/main.html'
 })
 class ShoppingApp {
@@ -66,34 +64,23 @@ class ShoppingApp {
 
   /** add a new item to shopping list */
   addItem(name: String, quantity: String) {
-    console.log(name, quantity);
     this.items.push(new Item(name, quantity, false));
-    name = null;
-    quantity  = null;
   }
 
   /** check all items in list */
   checkAll() {
-    for (var i=0; i<this.items.length; i++){
-      this.items[i].checked = true;
-    }
+    _.each(this.items, item => { item.checked = true });
   }
 
   /** uncheck all items in list */
   uncheckAll() {
-    for (var i=0; i<this.items.length; i++){
-      this.items[i].checked = false;
-    }
+    _.each(this.items, item => { item.checked = false });
   }
 
   /** delete all checked items in list */
   deleteChecked() {
-    for (var i=this.items.length-1; i>=0; i--){
-      if (this.items[i].checked)
-        this.items.splice(i, 1);
-    }
+    _.remove(this.items, (item) => item.checked);
   }
-
 }
 
 
