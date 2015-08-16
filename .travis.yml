@@ -4,6 +4,7 @@ node_js:
   - '0.12'
 
 install:
+- npm install
 - cd e2e
 - npm install
 
@@ -16,6 +17,8 @@ before_script:
 
 script:
 - npm test
+- cd $TRAVIS_BUILD_DIR
+- npm run-script deploy
 
 # whitelist - by default, gh-pages branch is not built unless you add it to the whitelist.
 branches:

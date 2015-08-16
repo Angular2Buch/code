@@ -3,13 +3,15 @@
   "version": "0.0.1",
   "description": "simple http-server for tests",
   "scripts": {
-    "start": "http-server -o"
+    "start": "http-server -o",
+    "deploy": "gulp deploy"
   },
   "license": "ISC",
   "devDependencies": {
     "http-server": "^0.8.0",
     "gulp": "^3.9.0",
-    "gh-pages": "^0.3.1"
+    "gh-pages": "^0.3.1",
+    "del": "^1.2.1"
   },
   "jspm": {
     "directories": {},
