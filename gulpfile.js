@@ -2,10 +2,16 @@ var gulp = require('gulp'),
     ghpages = require('gh-pages'),
     path = require('path'),
     del = require('del');
+    fs = require('fs');
 
 // cleans dist folder before all other tasks
 gulp.task('clean dist', function (cb) {
-  del(['dist/**/*'], cb);
+
+  if (fs.existsSync('dist')) {
+    del(['dist/**/*'], cb);
+  } else {
+    cb();
+  }
 });
 
 // copies all folders & files (that have no leading dot in filename) to folder dist
