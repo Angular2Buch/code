@@ -3,13 +3,8 @@ language: node_js
 node_js:
   - '0.12'
 
-# for testing multiple subdirectories
-# see: https://lord.io/blog/2014/travis-multiple-subdirs/
-env:
-- TEST_DIR=e2e
-
 install:
-- cd $TEST_DIR
+- cd e2e
 - npm install
 
 # see http://docs.travis-ci.com/user/gui-and-headless-browsers/
