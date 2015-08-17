@@ -1,7 +1,7 @@
 {
-  "name": "http-server",
+  "name": "Angular2Buch",
   "version": "0.0.1",
-  "description": "simple http-server for tests",
+  "description": "startup und deploy scrips",
   "scripts": {
     "start": "http-server -o",
     "deploy": "gulp deploy"

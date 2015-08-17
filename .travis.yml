@@ -16,14 +16,11 @@ before_script:
 - sleep 3
 
 script:
-- npm test
 - cd $TRAVIS_BUILD_DIR
-- npm run-script deploy
-
-# whitelist - by default, gh-pages branch is not built unless you add it to the whitelist.
-branches:
-  only:
-    - gh-pages
+- npm run-script deploy # for now we always deploy first (subject to change?)
+- sleep 10 # some waiting time to be sure that gh-pages is fine
+- cd e2e
+- npm test # integration tests
 
 # using Sauce Labs
 addons:

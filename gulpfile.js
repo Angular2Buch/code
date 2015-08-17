@@ -24,7 +24,7 @@ gulp.task('build', ['clean dist'], function () {
     .pipe(gulp.dest('./dist/'));
 });
 
-// uses gh-pages to push all content of dist to other repo
+// push all content of /dist to other repo
 gulp.task('deploy', ['build'], function(cb) {
 
   var dir = path.join(__dirname, 'dist');
