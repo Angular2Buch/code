@@ -5,15 +5,15 @@ var gulp = require('gulp'),
     fs = require('fs');
 
 // cleans dist folder before all other tasks
-gulp.task('clean dist', function (cb) {
-  del(['dist/**/*'], cb);
+gulp.task('clean dist', function (done) {
+  del(['dist/**/*'], done);
 });
 
 // copies all folders & files (that have no leading dot in filename) to folder dist
 // excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133)
 gulp.task('build', ['clean dist'], function () {
 
-  gulp.src(['**/*', '!**/node_modules{,/**}', '!dist{,/**}'])
+  return gulp.src(['**/*', '!**/node_modules{,/**}', '!dist{,/**}'])
     .pipe(gulp.dest('./dist/'));
 });
 
@@ -29,7 +29,7 @@ gulp.task('deploy', ['build'], function(cb) {
       + 'Triggered by commit: https://github.com/'  + process.env.TRAVIS_REPO_SLUG + '/commit/' + process.env.TRAVIS_COMMIT + '\n'
       + 'Travis build: https://travis-ci.org/' + process.env.TRAVIS_REPO_SLUG + '/builds/' + process.env.TRAVIS_BUILD_ID
   }
-  /*
+
   ghpages.publish(dir, {
     repo: 'https://' + process.env.GH_TOKEN + '@github.com/Angular2Buch/code-public.git',
     dotfiles: true,
@@ -39,5 +39,5 @@ gulp.task('deploy', ['build'], function(cb) {
       email: 'buildbot@haushoppe-its.de'
     },
     silent: true // hides GH_TOKEN
-  }, cb);*/
+  }, cb);
 });
