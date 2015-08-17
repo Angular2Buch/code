@@ -2,16 +2,34 @@ var gulp = require('gulp'),
     ghpages = require('gh-pages'),
     path = require('path'),
     del = require('del');
-    fs = require('fs');
+    fs = require('fs'),
+    markdown = require('gulp-markdown'),
+    debug = require('gulp-debug'),
+    rename = require("gulp-rename"),
+    insert = require('gulp-insert');
 
 // cleans dist folder before all other tasks
 gulp.task('clean dist', function (done) {
   del(['dist/**/*'], done);
 });
 
+// converts selected Readme.md files to index.html files, available next to original file (for local testing)
+// ignored by .gitignore though
+// hint: star in front maintains path
+gulp.task('convert markdown', function () {
+  return gulp.src(['*README.md', '*about-modules/README.md'])
+    //.pipe(debug({title: 'convert markdown'}))
+    .pipe(markdown({ breaks: true }))
+    .pipe(insert.append('\n<br><hr>\nBuild on: ' + new Date().toISOString()))
+    .pipe(rename(function (path) {
+      path.basename = "index"; // *README.html --> *index.html
+    }))
+    .pipe(gulp.dest('./'));
+});
+
 // copies all folders & files (that have no leading dot in filename) to folder dist
 // excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133) and various other files
-gulp.task('build', ['clean dist'], function () {
+gulp.task('build', ['clean dist', 'convert markdown'], function () {
 
   return gulp.src(['**/*',
     '!**/node_modules{,/**}',
@@ -21,6 +39,7 @@ gulp.task('build', ['clean dist'], function () {
     '!**/package.json',
     '!**/tsconfig.json',
     ])
+    //.pipe(debug({title: 'build: copy'}))
     .pipe(gulp.dest('./dist/'));
 });
 
