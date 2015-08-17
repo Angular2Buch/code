@@ -10,10 +10,17 @@ gulp.task('clean dist', function (done) {
 });
 
 // copies all folders & files (that have no leading dot in filename) to folder dist
-// excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133)
+// excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133) and various other files
 gulp.task('build', ['clean dist'], function () {
 
-  return gulp.src(['**/*', '!**/node_modules{,/**}', '!dist{,/**}'])
+  return gulp.src(['**/*',
+    '!**/node_modules{,/**}',
+    '!dist{,/**}',
+    '!e2e{,/**}',
+    '!gulpfile.js',
+    '!**/package.json',
+    '!**/tsconfig.json',
+    ])
     .pipe(gulp.dest('./dist/'));
 });
 
