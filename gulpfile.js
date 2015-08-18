@@ -17,10 +17,17 @@ gulp.task('clean dist', function (done) {
 // ignored by .gitignore though
 // hint: star in front maintains path
 gulp.task('convert markdown', function () {
+
+  var header = fs.readFileSync('.readme/readme_header.html', 'utf8');
+  var footer = fs.readFileSync('.readme/readme_footer.html', 'utf8')
+    .replace('##DATE##', new Date().toISOString());
+
   return gulp.src(['*README.md', '*about-modules/README.md'])
     //.pipe(debug({title: 'convert markdown'}))
-    .pipe(markdown({ breaks: true }))
-    .pipe(insert.append('\n<br><hr>\nBuild on: ' + new Date().toISOString()))
+    .pipe(markdown({
+      breaks: true,
+    }))
+    .pipe(insert.wrap(header, footer))
     .pipe(rename(function (path) {
       path.basename = "index"; // *README.html --> *index.html
     }))

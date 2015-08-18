@@ -19,7 +19,8 @@
     "gulp-markdown": "^1.0.0",
     "gulp-debug": "^2.1.0",
     "gulp-rename": "^1.2.2",
-    "gulp-insert": "^0.5.0"
+    "gulp-insert": "^0.5.0",
+    "pygmentize-bundled": "^2.3.0"
   },
   "jspm": {
     "directories": {},
