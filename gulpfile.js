@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     markdown = require('gulp-markdown'),
     debug = require('gulp-debug'),
     rename = require("gulp-rename"),
-    insert = require('gulp-insert');
+    insert = require('gulp-insert'),
+    highlight = require('highlight.js');
 
 // cleans dist folder before all other tasks
 gulp.task('clean dist', function (done) {
@@ -26,6 +27,9 @@ gulp.task('convert markdown', function () {
     //.pipe(debug({title: 'convert markdown'}))
     .pipe(markdown({
       breaks: true,
+      highlight: function (code, lang) {
+        return lang ? highlight.highlight(lang, code).value : highlight.highlightAuto(code).value
+      }
     }))
     .pipe(insert.wrap(header, footer))
     .pipe(rename(function (path) {
