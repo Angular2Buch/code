@@ -1,4 +1,4 @@
-# Angular2 und Modularer Code
+# Angular2 und modularer Code
 
 
 ### Inhalt
