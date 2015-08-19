@@ -1,7 +1,7 @@
 .DS_Store
 Thumbs.db
 
-dist/
+/dist/
 node_modules/
 jspm_packages/
 bower_components/
@@ -9,3 +9,4 @@ npm-debug.log
 
 /about-modules/index.html
 /index.html
+/angular-latest/

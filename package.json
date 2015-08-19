@@ -8,8 +8,11 @@
   },
   "license": "ISC",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/Angular2Buch/code.git"
+    "type": "git",
+    "url": "https://github.com/Angular2Buch/code.git"
+  },
+  "dependencies": {
+    "angular2": "2.0.0-alpha.35"
   },
   "devDependencies": {
     "http-server": "^0.8.0",
@@ -20,7 +23,8 @@
     "gulp-debug": "^2.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-insert": "^0.5.0",
-    "highlight.js": "^8.7.0"
+    "highlight.js": "^8.7.0",
+    "gulp-help": "^1.6.0"
   },
   "jspm": {
     "directories": {},

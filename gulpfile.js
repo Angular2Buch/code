@@ -1,4 +1,4 @@
-var gulp = require('gulp'),
+var gulp = require('gulp-help')(require('gulp')),
     ghpages = require('gh-pages'),
     path = require('path'),
     del = require('del');
@@ -10,14 +10,14 @@ var gulp = require('gulp'),
     highlight = require('highlight.js');
 
 // cleans dist folder before all other tasks
-gulp.task('clean dist', function (done) {
+gulp.task('clean /dist', false, function (done) {
   del(['dist/**/*'], done);
 });
 
-// converts selected Readme.md files to index.html files, available next to original file (for local testing)
+// converts some Readme.md files to index.html files, available next to original file (for local testing)
 // ignored by .gitignore though
 // hint: star in front maintains path
-gulp.task('convert markdown', function () {
+gulp.task('convert markdown', 'Converts some Readme.md files to index.html files', function () {
 
   var header = fs.readFileSync('.readme/readme_header.html', 'utf8');
   var footer = fs.readFileSync('.readme/readme_footer.html', 'utf8')
@@ -40,7 +40,7 @@ gulp.task('convert markdown', function () {
 
 // copies all folders & files (that have no leading dot in filename) to folder dist
 // excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133) and various other files
-gulp.task('build', ['clean dist', 'convert markdown'], function () {
+gulp.task('copy files to /dist', false, ['clean /dist', 'copy angular to /angular-latest',], function () {
 
   return gulp.src(['**/*',
     '!**/node_modules{,/**}',
@@ -50,12 +50,24 @@ gulp.task('build', ['clean dist', 'convert markdown'], function () {
     '!**/package.json',
     '!**/tsconfig.json',
     ])
-    //.pipe(debug({title: 'build: copy'}))
+    //.pipe(debug({title: 'copy files to /dist'}))
     .pipe(gulp.dest('./dist/'));
 });
 
-// push all content of /dist to other repo
-gulp.task('deploy', ['build'], function(cb) {
+// copies angular bundles to /angular-latest
+gulp.task('copy angular to /angular-latest', false, function () {
+
+  return gulp.src(['node_modules/angular2/bundles/**/*'])
+    //.pipe(debug({title: 'copy angular bundle'}))
+    .pipe(gulp.dest('./angular-latest/'));
+});
+
+gulp.task('build', ['copy files to /dist', 'convert markdown'], function () {
+
+});
+
+// pushes all content of /dist to gh-pages repository
+gulp.task('deploy', 'Pushes all content of /dist to gh-pages repository', ['build'], function(cb) {
 
   var dir = path.join(__dirname, 'dist');
   var message = 'Auto-generated commit';
