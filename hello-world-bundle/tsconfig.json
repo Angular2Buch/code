@@ -9,12 +9,8 @@
         "noLib": false,
         "emitDecoratorMetadata": true,
         "sourceMap": true,
-        "listFiles": true,
+        "listFiles": false,
         "experimentalDecorators": true,
         "newLine": "LF"
-    },
-    "files": [
-        "./app.ts",
-        "./typings/angular2/angular2.d.ts"
-    ]
+    }
 }
