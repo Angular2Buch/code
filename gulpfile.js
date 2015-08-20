@@ -40,7 +40,7 @@ gulp.task('convert markdown', 'Converts some Readme.md files to index.html files
 
 // copies all folders & files (that have no leading dot in filename) to folder dist
 // excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133) and various other files
-gulp.task('copy files to /dist', false, ['clean /dist', 'copy angular to /angular-latest',], function () {
+gulp.task('copy files to /dist', false, ['clean /dist', 'copy angular to /lib/angular-latest',], function () {
 
   return gulp.src(['**/*',
     '!**/node_modules{,/**}',
@@ -54,12 +54,12 @@ gulp.task('copy files to /dist', false, ['clean /dist', 'copy angular to /angula
     .pipe(gulp.dest('./dist/'));
 });
 
-// copies angular bundles to /angular-latest
-gulp.task('copy angular to /angular-latest', false, function () {
+// copies angular bundles to /lib/angular-latest
+gulp.task('copy angular to /lib/angular-latest', false, function () {
 
   return gulp.src(['node_modules/angular2/bundles/**/*'])
     //.pipe(debug({title: 'copy angular bundle'}))
-    .pipe(gulp.dest('./angular-latest/'));
+    .pipe(gulp.dest('./lib/angular-latest/'));
 });
 
 gulp.task('build', ['copy files to /dist', 'convert markdown'], function () {
