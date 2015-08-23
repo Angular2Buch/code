@@ -26,7 +26,7 @@ gulp.task('convert markdown', 'Converts some Readme.md files to index.html files
     .pipe(markdown({
       breaks: true,
       highlight: function (code, lang) {
-        return lang ? highlight.highlight(lang, code).value : highlight.highlightAuto(code).value
+        return lang ? highlight.highlight(lang, code).value : highlight.highlightAuto(code).value;
       }
     }))
     .pipe(insert.wrap(header, footer))
@@ -49,9 +49,9 @@ gulp.task('deploy', 'Pushes all content of /dist to gh-pages repository', ['buil
 
   if (process.env.TRAVIS) {
 
-    message += '\n\n'
-      + 'Triggered by commit: https://github.com/'  + process.env.TRAVIS_REPO_SLUG + '/commit/' + process.env.TRAVIS_COMMIT + '\n'
-      + 'Travis build: https://travis-ci.org/' + process.env.TRAVIS_REPO_SLUG + '/builds/' + process.env.TRAVIS_BUILD_ID
+    message += '\n\n' +
+      'Triggered by commit: https://github.com/' + process.env.TRAVIS_REPO_SLUG + '/commit/' + process.env.TRAVIS_COMMIT + '\n' +
+      'Travis build: https://travis-ci.org/'     + process.env.TRAVIS_REPO_SLUG + '/builds/' + process.env.TRAVIS_BUILD_ID;
   }
 
   ghpages.publish(dir, {
