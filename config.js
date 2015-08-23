@@ -1,20 +1,18 @@
 System.config({
-  "baseURL": "/",
-  "defaultJSExtensions": true,
-  "transpiler": "typescript",
-  "typescriptOptions": {
+  baseURL: "/",
+  defaultJSExtensions: true,
+  transpiler: "typescript",
+  typescriptOptions: {
     "module": "commonjs",
     "emitDecoratorMetadata": true
   },
-  "paths": {
+  paths: {
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*"
-  }
-});
+  },
 
-System.config({
-  "map": {
-    "angular2": "npm:angular2@2.0.0-alpha.34",
+  map: {
+    "angular2": "npm:angular2@2.0.0-alpha.35",
     "es6-shim": "github:es-shims/es6-shim@0.33.0",
     "jquery": "github:components/jquery@2.1.4",
     "reflect-metadata": "npm:reflect-metadata@0.1.0",
@@ -102,4 +100,3 @@ System.config({
     }
   }
 });
-
