@@ -47,7 +47,9 @@ module.exports = function(gulp) {
     'copy angular bundle',
     'copy angular typings'], function () {
 
-    return gulp.src(['**/*',
+    return gulp.src([
+      '**/*',
+      '.nojekyll',      
       '!**/node_modules{,/**}',
       //'!**/jspm_packages{,/**}',
       '!dist{,/**}',

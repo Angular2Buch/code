@@ -18,7 +18,7 @@ before_script:
 script:
 - cd $TRAVIS_BUILD_DIR
 - npm run-script deploy # for now we always deploy first (subject to change?)
-- sleep 10 # some waiting time to be sure that gh-pages is fine
+- sleep 300 # some waiting time to be sure that gh-pages is fine
 - cd e2e
 - npm test # integration tests
 
