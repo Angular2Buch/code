@@ -24,19 +24,6 @@ module.exports = function(gulp) {
   });
 
 
-  // cleans /lib/angular-latest-commonjs
-  gulp.task('clean angular commonjs', false, function (done) { del(['lib/angular-latest-commonjs/**/*'], done); });
-
-  // copies angular commonjs files to /lib/angular-latest-commonjs
-  gulp.task('copy angular commonjs', false, ['clean angular commonjs'], function () {
-
-    return gulp.src(['node_modules/angular2/*'])
-      .pipe(onlyFiles())
-      //.pipe(debug({title: 'copy angular commonjs'}))
-      .pipe(gulp.dest('./lib/angular-latest-commonjs/'));
-  });
-
-
   // cleans /lib/angular-latest-typings folder
   gulp.task('clean angular typings', false, function (done) { del(['lib/angular-latest-typings/**/*'], done); });
 
@@ -58,7 +45,6 @@ module.exports = function(gulp) {
   gulp.task('copy files', false, [
     'clean /dist',
     'copy angular bundle',
-    'copy angular commonjs',
     'copy angular typings'], function () {
 
     return gulp.src(['**/*',
