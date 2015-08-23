@@ -1,18 +1,16 @@
 var gulp = require('gulp-help')(require('gulp')),
     ghpages = require('gh-pages'),
     path = require('path'),
-    del = require('del');
     fs = require('fs'),
     markdown = require('gulp-markdown'),
     debug = require('gulp-debug'),
     rename = require("gulp-rename"),
     insert = require('gulp-insert'),
-    highlight = require('highlight.js');
+    highlight = require('highlight.js'),
+    runSequence = require('run-sequence');
 
-// cleans dist folder before all other tasks
-gulp.task('clean /dist', false, function (done) {
-  del(['dist/**/*'], done);
-});
+require('./gulpfile-copy-tasks')(gulp);
+
 
 // converts some Readme.md files to index.html files, available next to original file (for local testing)
 // ignored by .gitignore though
@@ -38,32 +36,9 @@ gulp.task('convert markdown', 'Converts some Readme.md files to index.html files
     .pipe(gulp.dest('./'));
 });
 
-// copies all folders & files (that have no leading dot in filename) to folder dist
-// excludes all node_modules folders (see https://github.com/gulpjs/gulp/issues/165#issuecomment-32626133) and various other files
-gulp.task('copy files to /dist', false, ['clean /dist', 'copy angular to /lib/angular-latest-bundle',], function () {
-
-  return gulp.src(['**/*',
-    '!**/node_modules{,/**}',
-    '!dist{,/**}',
-    '!e2e{,/**}',
-    '!gulpfile.js',
-    '!**/package.json',
-    '!**/tsconfig.json',
-    ])
-    //.pipe(debug({title: 'copy files to /dist'}))
-    .pipe(gulp.dest('./dist/'));
-});
-
-// copies angular bundles to /lib/angular-latest-bundle
-gulp.task('copy angular to /lib/angular-latest-bundle', false, function () {
-
-  return gulp.src(['node_modules/angular2/bundles/**/*'])
-    //.pipe(debug({title: 'copy angular bundle'}))
-    .pipe(gulp.dest('./lib/angular-latest-bundle/'));
-});
-
-gulp.task('build', ['copy files to /dist', 'convert markdown'], function () {
-
+// convert markdown must be done before the copy tasks, so that converted files are copied, too
+gulp.task('build', 'Runs all tasks, except deploy', function (done) {
+  runSequence('convert markdown', 'copy files', done);
 });
 
 // pushes all content of /dist to gh-pages repository

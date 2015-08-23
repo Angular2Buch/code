@@ -10,3 +10,5 @@ npm-debug.log
 /about-modules/index.html
 /index.html
 /lib/angular-latest-bundle/
+/lib/angular-latest-commonjs/
+/lib/angular-latest-typings/
