@@ -49,12 +49,10 @@ module.exports = function(gulp) {
 
     return gulp.src(['**/*',
       '!**/node_modules{,/**}',
-      '!**/jspm_packages{,/**}',
+      //'!**/jspm_packages{,/**}',
       '!dist{,/**}',
       '!e2e{,/**}',
-      '!gulpfile*',
-      '!**/package.json',
-      '!**/tsconfig.json',
+      '!gulpfile*'
       ])
       //.pipe(debug({title: 'copy files to /dist'}))
       .pipe(gulp.dest('./dist/'));
