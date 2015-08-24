@@ -7,7 +7,7 @@ jspm_packages/
 bower_components/
 npm-debug.log
 
-/about-modules/index.html
+/text/angular-module/index.html
 /index.html
 /lib/angular-latest-bundle/
 /lib/angular-latest-commonjs/
