@@ -22,7 +22,7 @@ class Article{
 
 @Component({
   selector: 'reddit-article',
-  properties: {'article' : 'article'}
+  properties: ['article']
 })
 @View({
   template: `

@@ -38,7 +38,7 @@ var RedditArticle = (function () {
     RedditArticle = __decorate([
         angular2_1.Component({
             selector: 'reddit-article',
-            properties: { 'article': 'article' }
+            properties: ['article']
         }),
         angular2_1.View({
             template: "\n    <article>\n      <div class=\"votes\">{{ article.votes }}</div>\n      <div class=\"main\">\n        <h2>\n          <a href=\"{{ article.link }}\">{{ article.title }}</a>\n        </h2>\n        <ul>\n          <li><a href (click)=\"voteUp()\">upvote</a></li>\n          <li><a href (click)=\"voteDown()\">downvote</a></li>\n        </ul>\n      </div>\n    </article>\n  "
