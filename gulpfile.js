@@ -21,7 +21,7 @@ gulp.task('convert markdown', 'Converts some Readme.md files to index.html files
   var footer = fs.readFileSync('.readme/readme_footer.html', 'utf8')
     .replace('##DATE##', new Date().toISOString());
 
-  return gulp.src(['*README.md', '*text/angular-module/README.md'])
+  return gulp.src(['*README.md', '*text/angular-module/README.md', '*text/angular-forms/README.md'])
     //.pipe(debug({title: 'convert markdown'}))
     .pipe(markdown({
       breaks: true,

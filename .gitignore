@@ -8,6 +8,7 @@ bower_components/
 npm-debug.log
 
 /text/angular-module/index.html
+/text/angular-forms/index.html
 /index.html
 /lib/angular-latest-bundle/
 /lib/angular-latest-commonjs/
