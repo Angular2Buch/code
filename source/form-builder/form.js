@@ -13,20 +13,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require("angular2/angular2");
 var angular2_2 = require('angular2/angular2');
 var DemoForSku = (function () {
-    function DemoForSku() {
+    function DemoForSku(form) {
+        this.myForm = form.group({
+            'sku': ['ABCD']
+        });
     }
     DemoForSku.prototype.onSubmit = function (value) {
         console.log('You submitted value: ', value);
     };
     DemoForSku = __decorate([
         angular2_1.Component({
-            selector: 'demo-form-sku'
+            selector: 'demo-form-sku-builder',
+            viewBindings: [angular2_2.FormBuilder]
         }),
         angular2_1.View({
             directives: [angular2_2.FORM_DIRECTIVES],
-            template: "\n    <div>\n    <h2>Form</h2>\n    <form #f=\"form\"\n          (submit)=\"onSubmit(f.value)\">\n      <div class=\"form-group\">\n        <label for=\"skuInput\">SKU</label>\n        <input type=\"text\"\n               class=\"form-control\"\n               id=\"skuInput\"\n               placeholder=\"SKU\"\n               ng-control=\"sku\" />\n\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </div>\n    </form>\n    </div>\n  "
+            template: "\n    <div>\n    <h2>Form</h2>\n    <form ng-form-model=\"myForm\"\n          (submit)=\"onSubmit(myForm.value)\">\n      <div class=\"form-group\">\n        <label for=\"skuInput\">SKU</label>\n        <input type=\"text\"\n               class=\"form-control\"\n               id=\"skuInput\"\n               placeholder=\"SKU\"\n               [ng-form-control]=\"myForm.controls['sku']\" />\n\n        <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n      </div>\n    </form>\n    </div>\n  "
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [angular2_2.FormBuilder])
     ], DemoForSku);
     return DemoForSku;
 })();
