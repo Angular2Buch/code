@@ -1,4 +1,4 @@
-/// <reference path="../../lib/angular-latest-typings/angular2/angular2"/>
+/// <reference path="../../../lib/angular-latest-typings/angular2/angular2"/>
 
 import {bootstrap, Component, View} from "angular2/angular2";
 import {FORM_DIRECTIVES, FormBuilder, Control, ControlGroup} from 'angular2/angular2';
@@ -22,7 +22,7 @@ import {Validators, NgIf} from 'angular2/angular2';
                [class.has-error]="!sku.valid && sku.touched"
                id="skuInput"
                placeholder="SKU"
-               [ng-form-control]="myForm.controls['sku']" />
+               [ng-form-control]="sku"/>
 
         <button type="submit" class="btn btn-default">Submit</button>
       </div>
