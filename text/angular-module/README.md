@@ -64,7 +64,7 @@ bootstrap(MyAppComponent);
 ![Screenshot](images/screenshot_hello_alice.png)
 > Screenshot: Der Output im Browser
 
-Hinter diesen vier markierten Zeilen verbirgt sich ein Strauß an Technologien - unter anderem Traceur, jspm, SystemJS, TypeSript und natürlich Angular2. Durch die Auswahl dieser Frameworks ist es möglich, bereits mit heutigen Browsern eine Anwendung auf Grundlage von ECMAScript 6 zu entwickeln. Die verwendeten Tools sollen nun betrachtet werden. Alle gezeigten Kommandozeilen-Befehle setzen voraus, dass Node.js mit NPM installiert ist.
+Hinter diesen vier markierten Zeilen verbirgt sich ein Strauß an Technologien - unter anderem Traceur, jspm, SystemJS, TypeSript und natürlich Angular2. Durch die Auswahl dieser Frameworks ist es möglich, bereits mit heutigen Browsern eine Anwendung auf Grundlage von ECMAScript 6 zu entwickeln. Die verwendeten Tools sollen nun betrachtet werden. Alle gezeigten Kommandozeilen-Befehle setzen voraus, dass Node.js installiert ist. Die Beispiele wurden noch nicht mit Node.js v4 getestet. Setzen Sie nach Möglichkeit Node.js v0.12 ein.
 
 
 <a name="es6module"></a>
