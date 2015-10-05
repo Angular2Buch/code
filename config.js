@@ -13,11 +13,7 @@ System.config({
 
   meta: {
     "angular2/angular2": {
-      "deps": [
-        "zone.js",
-        "reflect-metadata",
-        "es6-shim"
-      ]
+      "deps": ["reflect-metadata", "zone.js", "es6-shim"]
     }
   },
 
