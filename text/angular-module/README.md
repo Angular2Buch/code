@@ -327,7 +327,7 @@ Die Besonderheit bei diesem Beispiel ist die Tatsache, dass man nicht mehr Angul
       System.config({
         packages: {
           meta: {
-            'angular2/angular2': { 'deps': ["zone.js", "reflect-metadata", "es6-shim"] }
+            'angular2/angular2': { deps: ['zone.js', 'reflect-metadata', 'es6-shim'] }
           }
         }
       });
