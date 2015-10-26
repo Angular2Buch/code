@@ -94,15 +94,18 @@ Inputs werden durch `Property-Bindings` beschrieben. Outputs können über `Even
 
 ### Property-Bindings
 
-Mit Properties werden einer Komponente Daten übermittelt.
+Mit Properties werden einer Komponente Daten übermittelt. Im folgenden Beispiel nehen wir an, dass wir einer Komponente mit dem `selector` &lt;car&gt; eine `id` zuweisen möchten.
 
 ```html
 <car [id]="token"></car>
 ```
 
+Die gebundene Property korrespondiert zu einem Feld der Komponente. Dieses Feld ist mit der Annotation `@Input()` gekennzeichnet und kann im dazugehörigen `template` angezeigt werden.
+
 ```javascript
 @Component({
-  selector: 'Car'
+  selector: 'Car',
+  template: `<p>{{ id }}</p>`
 })
 class Car() {
   @Input() id:string;
@@ -117,35 +120,28 @@ Anstatt eckiger Klammern, können Property-Bindings mit `bind-{property-name}="{
 
 ### Event-Bindings
 
-Events bieten die Möglichkeit auf Veränderungen einer Komponente zu reagieren.
+Events bieten die Möglichkeit auf Veränderungen einer Komponente zu reagieren. Sie bieten einer Kompoente die Möglichkeit mit ihrer Außenwelt zu kommunzieren.
 
 ```html
-<car (damaged)="report(damage, $event)"></car>
+<car (damaged)="report(damage)"></car>
 ```
 
-```javascript
-@Component({
-  selector: 'damage-dashboard'
-})
-class Dashboard() {
-  Car:Car;
-}
-```
-
-Bei der Verwendung von Event-Bindings kann das Event-Objekt `$event` verwendet werden, um detaillierte Informationen über das ausgelöste Ereignis zu erhalten.
+Um solch ein Event aus einer Kompoente heraus zu erzeugen, verwenden wir die Annotation `@Output`. Das dazugehörige Feld ist ein `EventEmitter`, der Ereignisse auslösen kann.
 
 ```javascript
 @Component({ /* ... */ })
-class Dashboard() {
-  /* ... */
+class Car() {
+  @Input() id:string;
+  @Output() damaged:EventEmitter = new EventEmitter();
 
-  report(damage, $event) {
-    console.log($event.type) // click, hover, change, ...
+  reportDamage() {
+    // Event auslösen
+    this.damaged.next(this.id);
   }
 }
 ```
 
-Neben der Verwendung runder Klammern, können Event-Bindings auch mit dem Ausdruck `on-{Event-Name}="{callback()}"`.
+Neben der Verwendung runder Klammern, können Event-Bindings auch mit dem Ausdruck `on-{Event-Name}="{callback()}"` deklariert werden.
 
 ```html
 <car on-damaged="report(damage)"></car>
@@ -153,22 +149,46 @@ Neben der Verwendung runder Klammern, können Event-Bindings auch mit dem Ausdru
 
 ## Interpolation
 
-Bereits in AngularJS 1.x konnten Daten mithilfe zweier geschweifter Klammern an das HTML Template gebunden werden. Der Wert wurde mittels Interpolation ausgewertet und angezeigt.
-Dieses Konzept bleibt in Angulars neuer Version erhalten.
+Bereits in AngularJS 1.x konnten Daten mithilfe zweier geschweifter Klammern an ein HTML Template gebunden werden. Der Wert wurde mittels Interpolation ausgewertet und angezeigt.
+Dieses Konzept bleibt in Angular 2.0 erhalten.
 
 ```html
 <p>{{ name }}</p>
 ```
 
-Diese Schreibweise ist eine Vereinfachung. Bevor dieses Template im Browser ausgegeben wird es durch Angular folgender Maßen verarbeitet.
+Diese Schreibweise ist eine Vereinfachung. Bevor dieses Template im Browser ausgegeben wird, setzt Angular diesen Ausdruck in einem Property-Binding um.
 
 ```html
 <p [text-content]="interpolate(['Gregor'], [name])"></p>
 ```
 
-Die Bracket-Syntax wird ebenfalls in ein Property-Binding übersetzt. Das erspart uns Entwicklern einige Tipparbeit. [[6]]
+Das erspart uns Entwicklern einige Tipparbeit. [[6]]
 
 ### Two-Way Bindings mit `ng-model`
+
+Mit Property-Bindings haben wir schreibende und den Event-Bidings lesende Operationen  kennen gelernt. Wie in AngularJS 1.x, ist es auch möglich Zwei-Wege-Bindungen (Two-Way-Bindings) zu realisieren. In der Template-Syntax von Angular 2.0 werden hierfür die Schreibweisen beider Binding-Arten kombiniert.
+
+```html
+<input [(ng-model)]="model.driver">
+```
+
+Die eckigen Klammern legen fest, dass wir einen gegeben Wert an das &lt;input&gt;-Element binden. Über runde Klammern drücken wir aus, dass wir an Änderungen der Eigenschaft interessiert sind und diese mithilfe der Direktive `ng-model` wieder in die Eigenschaft zurückschreiben.
+
+Wie in den vorangehenden Beispielen können wir auch hier eine alternative Schreibweise verwenden.
+
+```html
+<input bindon-ng-model= "model.driver">
+```
+
+Die Zwei-Wege-Bindung lässt sich auch ohne ng-model realisieren. Das Markup wird so allerdings etwas komplexer.
+
+```html
+<input
+  [value]="model.driver"
+  (input)="model.driver=$event.target.value">
+```
+
+Hier wenden wir ein Property-Binding
 
 ## Lokale Variablen
 
@@ -179,6 +199,8 @@ Innerhalb eines Templates können Referenzen auf HTML-Elemente, Komponenten und 
 {{ id.value }}
 ```
 
+> Das Binding {{ id.value }} macht deutlich, dass die lokale Referenz das HTML-ELement referenziert und nicht nur dessen Wert.
+
 Anstatt der # können lokale Variablen auch mit dem Prefix `var-` deklariert werden.
 
 ```html
@@ -186,10 +208,14 @@ Anstatt der # können lokale Variablen auch mit dem Prefix `var-` deklariert wer
 {{ id }}
 ```
 
+Lokale Referenzen auf Komponenten unterscheiden syntaktisch nicht im Vergleich zu den HTML-ELementen. Allerdings erhalten wir hier den Zugriff auf die Methoden einer Komponente und können so mit ihr interagieren.
+
 ```html
 <car #car></car>
 <button (click)="car.getTankCapicity()">Get tank capacity</button>
 ```
+
+Lokale Referenzen können auch auf Objekte zeigen. Im folgenden Beispiel wird der Platzhalte `#c` genutzt, um für jedes Element der Liste `cars` die Komponente `Car`zu rendern.
 
 ```html
 <car *ng-for="#c in cars" [model]="c">
@@ -209,7 +235,7 @@ verwendet. Diese Direktiven werden strukturelle Direktiven (Structural Directive
 In diesem Beispiel wird das &lt;div&gt; Element nur in den DOM-Tree gezeichnet,
 wenn die Bedingung von `ng-if` wahr ist.
 Bei dem `*` handelt es sich, um eine Kurzschreibweise, die das Schreiben des Templates vereinfachen soll.
-Diese Schreibweise wird als _Micro Syntax_ bezeichnet, da Angular 2.0 diesen Ausdruck interpretiert und wieder in die uns bekannten Bindings umsetzt.
+Sie wird als _Micro Syntax_ bezeichnet, da Angular 2.0 diesen Ausdruck interpretiert und wieder in die uns bekannten Bindings umsetzt.
 Beispielsweise ist auch folgende Verwendung der ng-if Direktive zulässig.
 
 ```html
@@ -218,12 +244,12 @@ Beispielsweise ist auch folgende Verwendung der ng-if Direktive zulässig.
 </template>
 ```
 
-Angular übersetzt die Mikro Syntax in ein Property-Binding und umschließt das Template mit einem &lt;template&gt;-Tag. [[5]]
+Angular übersetzt die Micro Syntax in ein Property-Binding und umschließt das Template mit einem &lt;template&gt;-Tag. Somit entfällt der `*` , vor dem `ng-if`.[[5]]
 
 ## Der Pipe-Operator `|`
 
-Pipes korrespondieren zu den `filters` in AngularJS 1.x und  werden genutzt, um Daten zu für die Anzeige zu transformieren. Sie nehmen Eingabeargumente entgegen und liefern das transformierte Ergebnis zurück.
-In einem Binding-Expression werden sie durch das Symbol `|` (Pipe) eingeleitet.
+Pipes korrespondieren zu `filters` aus AngularJS 1.x und werden genutzt, um Daten zu für die Anzeige zu transformieren. Sie nehmen Eingabeargumente entgegen und liefern das transfornierte Ergebnis zurück.
+In einem Binding-Ausdruck werden sie durch das Symbol `|` (genannt Pipe) eingeleitet.
 
 ```html
 /* Der Wert von name wird in Großbuchstaben ausgegeben */
@@ -238,9 +264,19 @@ Pipes können auch aneinander gehangen werden, um mehrere Transformationen durch
 
 ## Der Elvis-Operator `?`
 
-Die Bezeichnung "Elvis Operator" ist eine Ode an den populären Mythos, ob Elvis tatsächlich tot ist oder nicht.
+Die Bezeichnung "Elvis Operator" ist eine Ode an den Mythos, der sich damit befasst, ob Elvis tatsächlich tot ist oder nicht.
 
-Er ist ein nützliches Instrument, um zu prüfen, ob ein Wert `null` ist oder nicht. So können Fehlermeldungen bei der Template-Erzeugung vermieden werden.
+Der `?`-Operator ist ein nützliches Instrument, um zu prüfen, ob ein Wert `null` oder `undefined` ist. So können Fehlermeldungen bei der Template-Erzeugung vermieden werden.
+
+```html
+<p>{{ car?.driver }}</p>
+```
+
+Hier prüfen wir, ob das Objekt `car` existiert. Wenn ja, geben wir den Namen des Fahrers aus. Der `?`-Operator funktioniert ebenfalls in komplexeren Objektbäumen.
+
+```html
+<p>{{ car?.driver?.licences?.B1 }}</p>
+```
 
 ## Was hat das mit HTML zu tun?
 
@@ -248,7 +284,7 @@ Auch wenn sich die Syntax zu Beginn ungewohnt ist, handelt es sich hierbei um va
 
 > Attribute names must consist of one or more characters other than the space characters, U+0000 NULL, """, "'", ">", "/", "=", the control characters, and any characters that are not defined by Unicode.
 
-# Kurz
+# Zusammengefasst
 
 - Input- und Output-Properties beschreiben die API einer Komponente
 - Über Inputs "fließen" Daten in die Komponente hinein.
