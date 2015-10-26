@@ -41,9 +41,29 @@ export default class DashboardComponent {
 Von Angular importieren wir zunächst zwei Module `@Component()` und `@View()`. Sie
 werden als Annotationen bezeichnet. Annotationen ermöglichen es Klassen zu
 erweitern. Hier deklarieren wir über @Component(), dass die Dashboard-Komponente über den `selector` &lt;dashboard&gt; im HTML eingesetzt wid.
-In @View() definieren wir das Template, das mit der Komponenten verknüpft ist. In diesem Beispiel wird das Feld `id`, aus der Klasse `DashboardComponent`, im Template gebunden und angezeigt. And dieser Stelle bekommt man ein Gefühl, was eine Kompoenente ist.
+In @View() definieren wir das Template, das mit der Komponenten verknüpft ist. In diesem Beispiel wird das Feld `id`, aus der Klasse `DashboardComponent`, im Template gebunden und angezeigt. And dieser Stelle wird deutlich, was eine Kompoenente ist.
 
 > Eine Komponente ist ein angereichertes Template, das im Browser zur Anzeige gebracht wird. Das Template verfügt über ein spezifisches Verhalten, das in Angular 2.0 durch Typescript beschrieben wird.
+
+## Interpolation
+
+Wie wird nun aus dem Ausdruck `{{ id }}` ein angezeigtes Datenfeld im Brwoser?
+Bereits in AngularJS 1.x konnten Daten mithilfe zweier geschweifter Klammern an ein HTML Template gebunden werden. Der Wert wurde mittels Interpolation ausgewertet und angezeigt.
+Dieses Konzept bleibt in Angular 2.0 erhalten.
+
+```html
+<p>{{ id }}</p>
+```
+
+Diese Schreibweise ist eine Vereinfachung. Bevor dieses Template im Browser ausgegeben wird, setzt Angular diesen Ausdruck in einem Property-Binding um.
+
+```html
+<p [text-content]="interpolate(['Gregor'], [name])"></p>
+```
+
+Das erspart uns Entwicklern einige Tipparbeit. [[6]]
+
+## Komponenten miteinander verknüpfen
 
 Um in dem Dashboard nun ein Auto abbilden zu können wird eine weitere Komponente benötigt.
 
@@ -72,7 +92,7 @@ import { CarComponent } from '../car/car.component';
 
 @Component({ selector: 'dashboard' })
 @View({
-    directives: [CarCompoent],
+    directives: [CarComponent],
     template: `<car [id]="id"></car>`
 })
 export default class DashboardComponent {
@@ -94,43 +114,44 @@ Inputs werden durch `Property-Bindings` beschrieben. Outputs können über `Even
 
 ### Property-Bindings
 
-Mit Properties werden einer Komponente Daten übermittelt. Im folgenden Beispiel nehen wir an, dass wir einer Komponente mit dem `selector` &lt;car&gt; eine `id` zuweisen möchten.
+Mit Properties werden einer Komponente Daten übermittelt.
+
+![data-flow-in](images/data-flows-in.png)
+
+Property-Bindgins zeichnens sich durch eckicke Klammern aus (`[id]`)
 
 ```html
-<car [id]="token"></car>
-```
-
-Die gebundene Property korrespondiert zu einem Feld der Komponente. Dieses Feld ist mit der Annotation `@Input()` gekennzeichnet und kann im dazugehörigen `template` angezeigt werden.
-
-```javascript
-@Component({
-  selector: 'Car',
-  template: `<p>{{ id }}</p>`
-})
-class Car() {
-  @Input() id:string;
-}
+// dashboard.component.ts
+<car [id]="id"></car>
 ```
 
 Anstatt eckiger Klammern, können Property-Bindings mit `bind-{property-name}="{value}"` werden.
 
 ```html
-<car bind-id="token"></car>
+// dashboard.component.ts
+<car bind-id="id"></car>
 ```
 
 ### Event-Bindings
 
 Events bieten die Möglichkeit auf Veränderungen einer Komponente zu reagieren. Sie bieten einer Kompoente die Möglichkeit mit ihrer Außenwelt zu kommunzieren.
 
+![data-flows-out](images/data-flows-out.png)
+
+Property-Bindgins zeichnens sich durch eckicke Klammern aus (`(damaged)`)
+
 ```html
 <car (damaged)="report(damage)"></car>
 ```
 
-Um solch ein Event aus einer Kompoente heraus zu erzeugen, verwenden wir die Annotation `@Output`. Das dazugehörige Feld ist ein `EventEmitter`, der Ereignisse auslösen kann.
+Um solch ein Event aus einer Kompoente heraus zu erzeugen, verwenden wir die Annotation `@Output()`. Das dazugehörige Feld ist ein `EventEmitter`, der Ereignisse auslösen kann.
 
 ```javascript
+// car.component.ts
+import { EventEmitter } from 'angular2/angular2';
+
 @Component({ /* ... */ })
-class Car() {
+class CarComponent() {
   @Input() id:string;
   @Output() damaged:EventEmitter = new EventEmitter();
 
@@ -144,25 +165,25 @@ class Car() {
 Neben der Verwendung runder Klammern, können Event-Bindings auch mit dem Ausdruck `on-{Event-Name}="{callback()}"` deklariert werden.
 
 ```html
+// dashboard.component.ts
 <car on-damaged="report(damage)"></car>
 ```
 
-## Interpolation
+In der Dashboard Komponente muss lediglich eine Methode ergänzt werden die nach dem Ausläsen des Events `(damaged)` ausgeführt wird.
 
-Bereits in AngularJS 1.x konnten Daten mithilfe zweier geschweifter Klammern an ein HTML Template gebunden werden. Der Wert wurde mittels Interpolation ausgewertet und angezeigt.
-Dieses Konzept bleibt in Angular 2.0 erhalten.
-
-```html
-<p>{{ name }}</p>
+```javascript
+// dashboard.component.ts
+export default class DashboardComponent {
+    /* ... */
+    notifyCarDamaged() {
+        this.totalDamages++;
+    }
+}
 ```
 
-Diese Schreibweise ist eine Vereinfachung. Bevor dieses Template im Browser ausgegeben wird, setzt Angular diesen Ausdruck in einem Property-Binding um.
+In unserem Fall zählen wir im Dashboard die Anzahl der gemeldeten Schadensfälle zusammen.
 
-```html
-<p [text-content]="interpolate(['Gregor'], [name])"></p>
-```
-
-Das erspart uns Entwicklern einige Tipparbeit. [[6]]
+![dashboard-counter](images/app-screenshot-02.png)
 
 ### Two-Way Bindings mit `ng-model`
 
