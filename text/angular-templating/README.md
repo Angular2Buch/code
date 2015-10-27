@@ -260,7 +260,7 @@ In diesem Beispiel wird das &lt;div&gt; Element nur in den DOM-Tree gezeichnet, 
 </template>
 ```
 
-Angular übersetzt die Micro Syntax in ein Property-Binding und umschließt das Template mit einem &lt;template&gt;-Tag. Somit entfällt der `*` , vor dem `ng-if`.[[5]]
+Angular übersetzt die Micro Syntax in ein Property-Binding und umschließt das Template mit einem &lt;template&gt;-Tag. Dadurch entfällt der `*` , vor dem `ng-if`.[[5]]
 
 ## Der Pipe-Operator `|`
 
