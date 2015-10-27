@@ -269,13 +269,13 @@ In einem Binding-Ausdruck werden sie durch das Symbol `|` (genannt Pipe) eingele
 
 ```html
 /* Der Wert von name wird in Großbuchstaben ausgegeben */
-<p>{{ name | uppercase}}</p>
+<p>{{ id | uppercase}}</p>
 ```
 
 Pipes können auch aneinander gehangen werden, um mehrere Transformationen durchzuführen.
 
 ```html
-<p>{{ name | uppercase | lowercase}}</p>
+<p>{{ id | uppercase | lowercase}}</p>
 ```
 
 ## Der Elvis-Operator `?`
@@ -338,6 +338,6 @@ Wie das alles funktioniert sehen Sie in der nächsten Ausgabe.
 [3]: https://www.youtube.com/watch?v=-dMBcqwvYA0 "ng-conf 2015 Keynote 2"
 [4]: ng-book "2 - The Complete Book on AngularJS 2 by Ari Lerner, Felipe Coury, Nate Murray, Carlos Taborda"
 [5]: https://angular.io/docs/ts/latest/guide/template-syntax.html "angular.io - Template-Syntax"
-[6]:  http://blog.thoughtram.io/angular/2015/08/11/angular-2-template-syntax-demystified-part-1.html "Template-Syntax demystified"
+[6]: http://blog.thoughtram.io/angular/2015/08/11/angular-2-template-syntax-demystified-part-1.html "Template-Syntax demystified"
 [7]: https://youtu.be/bVI5gGTEQ_U "Angular 2 Data Flow – Jeff Cross, Rob Wormald and Alex Rickabaugh"
 [8]: http://www.w3.org/TR/html-markup/syntax.html "W3C - HTML: The Markup Language (an HTML language reference)"
