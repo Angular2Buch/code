@@ -21,9 +21,9 @@ Neben einer ID und dem Schadensstatus kann auch der aktuelle Füllstand des Fahr
 
 Angular 2 Anwendungen bestehen aus verschiedenen Komponenten (Components), die miteinander agieren können.
 
-Für das Dashboard wird also eine Komponente benötigt. Im Dashboard wird eine Liste von Autos abgebildet werden. Das bedeutet, dass hierfür ebenfalls eine Komponente implementiert wird.
+Für das Dashboard wird eine Komponente benötigt. Im Dashboard wird eine Liste von Autos abgebildet werden. Das bedeutet, dass hierfür eine weitere Komponente implementiert wird.
 
-Eine Angular 2.0 Kompoenente ist wie folgt aufgebaut
+Eine Angular 2.0 Kompoenente ist wie folgt aufgebaut.
 
 ```javascript
 // dashboard.component.ts
@@ -54,13 +54,11 @@ Dieses Konzept bleibt in Angular 2.0 erhalten.
 <p>{{ id }}</p>
 ```
 
-Diese Schreibweise ist eine Vereinfachung. Bevor dieses Template im Browser ausgegeben wird, setzt Angular diesen Ausdruck in einem Property-Binding um.
+Diese Schreibweise ist eine Vereinfachung. Denn bevor dieses Template im Browser ausgegeben wird, setzt Angular diesen Ausdruck in ein Property-Binding um. [[6]]
 
 ```html
 <p [text-content]="interpolate(['Gregor'], [name])"></p>
 ```
-
-Das erspart uns Entwicklern einige Tipparbeit. [[6]]
 
 ## Komponenten miteinander verknüpfen
 
@@ -80,7 +78,7 @@ export default class CarComponent {
 ```
 
 Im ersten Schritt soll diese Komponente lediglich die zugewiesene Identifikationsnummer ausgeben.
-Die @Input() Decorator bietet uns hierbei die Möglichkeit Werte an die `CarComponent` zu übergeben. Näheres wird im folgenden Abschnitt erläutert.
+Die @Input() Decorator bietet die Möglichkeit, Werte an die `CarComponent` zu übergeben. Näheres wird im folgenden Abschnitt erläutert.
 
 Nun kann die CarComponent im Dashboard refrenziert und im Template verwendet werden.
 
@@ -180,7 +178,7 @@ export default class DashboardComponent {
 }
 ```
 
-In unserem Fall wird im Dashboard die Anzahl der gemeldeten Schadensfälle zusammengezählt.
+In diesem Fall wird im Dashboard die Anzahl der gemeldeten Schadensfälle zusammengezählt.
 
 ![dashboard-counter](images/app-screenshot-02.png)
 
@@ -254,11 +252,7 @@ verwendet. Diese Direktiven werden strukturelle Direktiven (Structural Directive
 <div *ng-if="totalDamages > 0">{{ totalDamages }}</div>
 ```
 
-In diesem Beispiel wird das &lt;div&gt; Element nur in den DOM-Tree gezeichnet,
-wenn die Bedingung von `ng-if` wahr ist.
-Bei dem `*` handelt es sich, um eine Kurzschreibweise, die das Schreiben des Templates vereinfachen soll.
-Sie wird als _Micro Syntax_ bezeichnet, da Angular 2.0 diesen Ausdruck interpretiert und wieder in die uns bekannten Bindings umsetzt.
-Beispielsweise ist auch folgende Verwendung der ng-if Direktive zulässig.
+In diesem Beispiel wird das &lt;div&gt; Element nur in den DOM-Tree gezeichnet, wenn die Bedingung von `ng-if` wahr ist. Bei dem `*` handelt es sich, um eine Kurzschreibweise, die das Schreiben des Templates vereinfachen soll. Sie wird als _Micro Syntax_ bezeichnet, da Angular 2.0 diesen Ausdruck interpretiert und wieder in die bekannten Bindings umsetzt. Beispielsweise ist auch folgende Verwendung der ng-if Direktive zulässig.
 
 ```html
 <template [ng-if]="totalDamages > 0">
