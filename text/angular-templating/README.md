@@ -38,7 +38,7 @@ export default class DashboardComponent {
 
 Von Angular werden zunächst zwei Module `@Component()` und `@View()` importiert. Diese beiden Module sind im Speziellen TypeScript-Dekoratoren. Dekoratoren ermöglichen es Klassen zu
 durch Meta-Angaben erweitern. `@Component()` spezifiziert, dass die Dashboard-Komponente über den `selector` &lt;dashboard&gt; im DOM des HTML-Dokuments eingesetzt wird.
-Mit @View() definiert man das Template, das mit der Komponenten verknüpft ist. In diesem Beispiel wird das Feld `id`, aus der Klasse `DashboardComponent`, im Template gebunden und angezeigt. An dieser Stelle wird deutlich, was eine Komponente ist: Komponenten sind die neuen zentralen Bausteine von Angular 2.0. Sie übernehmen die Rolle von Direktiven und Controllern aus AngularJS. 
+Mit @View() definiert man das Template, das mit der Komponenten verknüpft ist. In diesem Beispiel wird das Feld `id`, aus der Klasse `DashboardComponent`, im Template gebunden und angezeigt. An dieser Stelle wird deutlich, was eine Komponente ist: Komponenten sind die neuen zentralen Bausteine von Angular 2.0. Sie übernehmen die Rolle von Direktiven und Controllern aus AngularJS.
 
 > Eine Komponente ist ein angereichertes Template, das im Browser zur Anzeige gebracht wird. Das Template verfügt über ein spezifisches Verhalten, das in Angular 2.0 durch TypeScript-Dekoratoren beschrieben wird.
 
@@ -306,7 +306,7 @@ Auch wenn sich die Syntax zu Beginn ungewohnt ist, handelt es sich hierbei um va
 
 ## Vollständiges Beispiel
 
-__TODO: ich würde hier noch das komplette Beispiel rein machen. Wenn du die Zeitschrift aufm Klo liest, kommst du nicht an die Quelltexte ran und stirbst womöglich dumm! ;-)__ 
+__TODO: ich würde hier noch das komplette Beispiel rein machen. Wenn du die Zeitschrift aufm Klo liest, kommst du nicht an die Quelltexte ran und stirbst womöglich dumm! ;-)__
 
 # Zusammengefasst
 
@@ -331,11 +331,11 @@ Wie das alles funktioniert sehen Sie in der nächsten Ausgabe.
 
 ## Über die Autoren
 
-![Johannes Hoppe](images/johannes-hoppe.png)
-**Johannes Hoppe** ist selbstständiger IT-Berater, Softwareentwickler und Trainer. Er arbeitet derzeit als Architekt für ein Portal auf Basis von .NET und AngularJS. Er bloggt unter http://blog.johanneshoppe.de/ .
-
 ![Gregor Woiwode](images/gregor-woiwode.png)
 **Gregor Woiwode** ist als Softwareentwickler im Bereich des Competitive Intelligence bzw. Enterprise Knowledge Managements für ein Softwareunternehmen in Leipzig tätig. Er veranstaltet Trainings AngularJS. Er bloggt unter http://www.woiwode.info/blog/ .
+
+![Johannes Hoppe](images/johannes-hoppe.png)
+**Johannes Hoppe** ist selbstständiger IT-Berater, Softwareentwickler und Trainer. Er arbeitet derzeit als Architekt für ein Portal auf Basis von .NET und AngularJS. Er bloggt unter http://blog.johanneshoppe.de/ .
 
 <hr>
 
