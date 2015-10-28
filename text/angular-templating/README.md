@@ -306,7 +306,94 @@ Auch wenn sich die Syntax zu Beginn ungewohnt ist, handelt es sich hierbei um va
 
 ## Vollständiges Beispiel
 
-__TODO: ich würde hier noch das komplette Beispiel rein machen. Wenn du die Zeitschrift aufm Klo liest, kommst du nicht an die Quelltexte ran und stirbst womöglich dumm! ;-)__
+```javascript
+import { Component, View , Input, Output } from 'angular2/angular2';
+import { EventEmitter, FORM_DIRECTIVES }   from 'angular2/angular2';
+
+@Component({ selector: 'car' })
+@View({
+  directives:[FORM_DIRECTIVES],
+  template: `
+  <p>ID {{ id | uppercase }}</p>
+  <p>{{ tankCapacity }}</p>
+  <input [(ng-model)]="id"
+         placeholder="Change ID ...">
+  <button (click)="rockfall()">Report rockfall</button>
+  `
+})
+export default class CarComponent {
+  @Input() id: string;
+  @Input() tankCapacity: number;
+  @Output() damaged: EventEmitter = new EventEmitter();
+
+  rockfall() {
+    this.damaged.next(this.id);
+  }
+
+  getTankCapicity() {
+    this.tankCapacity = Math.floor(Math.random() * 100);
+  }
+}
+```
+[car.component.ts]
+
+```javascript
+import { Component, View, NgIf } from 'angular2/angular2';
+import CarComponent from '../car/car.component';
+
+@Component({ selector: 'dashboard' })
+@View({
+  directives: [CarComponent, NgIf],
+  template: `
+    <p *ng-if="totalDamages > 0" class="lead">Reported Damages:{{ totalDamages }}</p>
+    <car #car
+         [id]="id" [tank-capacity]="tankCapacity"
+         (damaged)="notifyCarDamaged()"></car>
+    <button (click)="car.getTankCapicity()">Get tank capacity</button>
+  `
+})
+export default class DashboardComponent {
+  id: string;
+  tankCapacity: number;
+  totalDamages: number;
+
+  constructor() {
+    this.id = 'ng-car 1.0';
+    this.tankCapacity = 100;
+    this.totalDamages = 0;
+  }
+
+  notifyCarDamaged() {
+    this.totalDamages++;
+  }
+}
+```
+[dashboard.component.ts]
+
+```javascript
+import {bootstrap} from 'angular2/angular2';
+import Dashboard   from './components/dashboard/dashboard.component';
+
+bootstrap(Dashboard);
+```
+
+```html
+<html>
+  <head>
+    <title>Demo | Template-Syntax</title>
+    <script src="../node_modules/systemjs/dist/system.src.js"></script>
+    <script src="../node_modules/angular2/bundles/angular2.dev.js"></script>
+    <script>
+      System.config({ packages: {'app': { defaultExtension: 'js' } } });
+      System.import('app/app');
+    </script>
+  </head>
+  <body>
+    <dashboard>loading...</dashboard>
+  </body>
+</html>
+```
+[index.html]
 
 # Zusammengefasst
 
