@@ -54,13 +54,13 @@ export default class DashboardComponent {
   totalDamages: number = 0;
   bestPrice: number = 0;
 
-  constructor(private GasService: GasService) {
+  constructor(private gasService: GasService) {
     this.cars = [new Car('ng-car 1.0'), new Car('ng-car 2.0')]
   }
 
   refillTank(car: Car, amountOfMoneyToSpend: number) {
 
-    this.GasService
+    this.gasService
       .getBestPrice()
       .subscribe((bestPrice: number) => {
 
