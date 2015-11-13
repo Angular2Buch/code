@@ -15,10 +15,8 @@ var DashboardComponent = (function () {
     function DashboardComponent(GasService) {
         this.GasService = GasService;
         this.totalDamages = 0;
-        this.cars = [
-            new car_1.default('ng-car 1.0'),
-            new car_1.default('ng-car 2.0')
-        ];
+        this.bestPrice = 0;
+        this.cars = [new car_1.default('ng-car 1.0'), new car_1.default('ng-car 2.0')];
     }
     DashboardComponent.prototype.refillTank = function (car, amountOfMoneyToSpend) {
         var _this = this;
@@ -26,7 +24,7 @@ var DashboardComponent = (function () {
             .getBestPrice()
             .subscribe(function (bestPrice) {
             _this.bestPrice = bestPrice;
-            car.refillTank(Math.floor(amountOfMoneyToSpend / bestPrice));
+            car.refillTank(amountOfMoneyToSpend / bestPrice);
         }, function (err) { return console.error(err); });
     };
     DashboardComponent.prototype.notifyCarDamaged = function () {

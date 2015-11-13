@@ -51,15 +51,11 @@ import GasService from '../../models/gasService';
 })
 export default class DashboardComponent {
   cars: Array<Car>;
-  totalDamages: number;
-  bestPrice: number;
+  totalDamages: number = 0;
+  bestPrice: number = 0;
 
   constructor(private GasService: GasService) {
-    this.totalDamages = 0;
-    this.cars = [
-      new Car('ng-car 1.0'),
-      new Car('ng-car 2.0')
-    ]
+    this.cars = [new Car('ng-car 1.0'), new Car('ng-car 2.0')]
   }
 
   refillTank(car: Car, amountOfMoneyToSpend: number) {
@@ -69,7 +65,7 @@ export default class DashboardComponent {
       .subscribe((bestPrice: number) => {
 
         this.bestPrice = bestPrice;
-        car.refillTank(Math.floor(amountOfMoneyToSpend / bestPrice));
+        car.refillTank(amountOfMoneyToSpend / bestPrice);
       },
       err => console.error(err));
   }
