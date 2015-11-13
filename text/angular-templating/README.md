@@ -426,7 +426,7 @@ bootstrap(Dashboard);
 
 In AngularJS 1.x ist Entwicklungsaufwand nötig, um Webkomponenten anderen Bibliotheken integrieren zu können. Es müssen Direktiven geschrieben werden, um Angular die Statusänderungen der "Fremdkomponenten" mitzuteilen. [[9]]
 
-Mit Angular 2.0 ist diese Arbeit nicht mehr nötig. Es wird nicht mehr unterschieden, ob es sich um ein natives Browserelement oder eine Web Component handelt. Angular hat nur Kenntnis davon, dass es an bestimmten Stellenen im DOM Elemente instanzieren muss und es Eigenschaften schreiben, sowie Event-Listener erzeigen soll.
+Mit Angular 2.0 ist diese Arbeit nicht mehr nötig. Es wird nicht mehr unterschieden, ob es sich um ein natives Browserelement oder eine Web Component handelt. Angular hat nur Kenntnis davon, dass es an bestimmten Stellen im DOM Elemente instanzieren muss und es Eigenschaften schreiben, sowie Event-Listener erzeigen soll.
 
 Das ermöglicht Beispielsweise die direkte Verwendung der Komponente `google-youtube` aus dem Polymer-Projekt. [[10]]
 
@@ -439,8 +439,19 @@ Das ermöglicht Beispielsweise die direkte Verwendung der Komponente `google-you
 <button (click)="player.pause()"></button>
 ```
 
-Alle im Artikel beschriebenen Konzepte können hier nahtlos verwendet werden. Anhand der Online Dokumentation von `google-youtube` ist bekannt welche Eigenschaften und Aktionen zur Verfügung stehen [[10]]. Das Elementattribut `video-id` kann über ein Property-Binding gesetzt werden (`[video-id]`).
-Unter Verwendung der Referenz `#player` können die Aktionen der Webkomponente ausegführt werden.
+```javascript
+@View({ /* … */})
+export default class DashboardComponent {
+  /* ... */
+  videoId: string;
+
+  constructor() {
+    /* ... */
+    this.videoId = "ewxEFdMPMF0";
+  }
+```
+Alle im Artikel beschriebenen Konzepte können hier nahtlos verwendet werden. Anhand der Online Dokumentation von `google-youtube` ist bekannt welche Eigenschaften und Aktionen zur Verfügung stehen [[10]]. Das Elementattribut `video-id` kann über ein Property-Binding gesetzt werden (`[video-id]`). Wird der Komponente eine gültige Id eines Videos von Youtube übergeben initialisiert sich der Video-Player selbstständig und kann verwendet werden.
+Unter Verwendung der Referenz `#player` können die Aktionen der Webkomponente von anderen Webelementen gesteuert .
 
 Angular stellt über die Template-Syntax eine einheitliche API zur Verfügung die auf jeder Web Component angewendet werden kann.
 
