@@ -11,20 +11,26 @@ In den beiden vorangegangenen Artikeln zu Angular 2.0 wurde zunächst ein modula
 
 ## Inversion of Control
 
-Das Dashboard war die Demo-Anwendung aus der letzten Ausgabe. Im Dashboard soll man nun Informationen zum aktuell günstigsten Benzinpreis erhalten. Wenn man an einer beliegen Stelle im Programmcode eine andere Funktionalität benötigt, dann liegt es zunächst nahe, jene andere Funktionalität an Ort und Stelle zu initialisieren. Ein erster Ansatz könnte wie folgt ausschauen:
+Das Dashboard war die Demo-Anwendung aus der letzten Ausgabe. Im Dashboard soll man nun Informationen zum aktuell günstigsten Benzinpreis erhalten. 
+
+![Screenshot](images/screenshot_refill.png)
+> Screenshot: Mit dem günstigsten Benzinpreis die Autos betanken
+
+Wenn man an einer beliegen Stelle im Programmcode eine andere Funktionalität benötigt, dann liegt es zunächst nahe, jene andere Funktionalität an Ort und Stelle zu initialisieren. Ein erster Ansatz könnte wie folgt ausschauen:
 
 ```javascript
 var Dashboard = function() {
   this.gasService = new GasService();
   
   // gasService verwenden
+  this.gasService.getBestPrice();
 }
 ```
 
-![Screenshot](images/screenshot_refill.png)
-> Screenshot: Mit dem günstigsten Benzinpreis die Autos betanken
 
-Dieses Vorgehen ist prinzipiell einwandfrei - nur stößt man mit zunehmender Menge an Code an eine Grenze. Der Code wird zunehmend unübersichtlicher, schwerer zu Warten und verweigert sich einem einfachen Test-Setup. Das Prinzip des "Inversion of Control" kehrt die Verantwortlichkeit einfach um. Wenn man nun eine andere Funktionalität benötigt, so gibt man hierfür die Kontrolle an eine übergeordnete Instanz ab. Das Prinzip findet sich in verschiedenen Entwurfsmustern in allen Programmiersprachen wieder. AngularJS zum Beispiel verwendet das Entwurfsmuster "Dependency Injection". Ein Framework im Kern von AngularJS sorgt dafür, das die benötigte Abhängigkeit identifiziert wird und der Konstruktor-Funktion beim Aufruf bereit gestellt wird. In AngularJS 1.x kann man einen Service wie folgt anfordern:
+Dieses Vorgehen ist prinzipiell einwandfrei - nur stößt man mit zunehmender Menge an Code an eine Grenze. Der Code wird zunehmend unübersichtlicher, schwerer zu Warten und verweigert sich einem einfachen Test-Setup. Das Problem lässt sich dadurch begegnen, dass man die Verantwortung zum Erzeugen von Abhängigkeiten an eine übergeordnete Stelle abgibt. 
+
+Dies ist die Idee hinter dem Prinzip des **"Inversion of Control"**. Bei diesem Prinzip kehrt man die Verantwortlichkeit einfach um. Das Prinzip findet sich in verschiedenen Entwurfsmustern in allen Programmiersprachen wieder. AngularJS zum Beispiel verwendet das Entwurfsmuster **"Dependency Injection"**. Ein Framework im Kern von AngularJS sorgt dafür, das die benötigte Abhängigkeit identifiziert wird und der Konstruktor-Funktion beim Aufruf bereit gestellt wird. In AngularJS 1.x kann man einen Service wie folgt anfordern:
 
 ```javascript
 // AngularJS 1.x 
@@ -33,9 +39,11 @@ var Dashboard = ['GasService', function(GasService) {
 }]
 ```
 
+Wer das DI-Framework aus AngularJs 1.x kennt, der wird mit Sicherheit auch an dessen Grenzen gestoßen sein. Besonders hinderlich sind fehlende Namespaces und die Notwendigkeit, stets alle Abhängigkeiten per Name zu identifizieren. Dies ist doppelter Schreibaufwand. Im vorliegenden Beispiel muss man zum Beispiel zwei mal "GasService" schreiben.
+
 ## Dependency Injection mit Angular 2.0
 
-Wer das DI-Framework aus AngularJs 1.x kennt, der wird mit Sicherheit auch an dessen Grenzen gestoßen sein. Besonders hinderlich sind fehlende Namespaces und die Notwendigkeit, stets alle Abhängigkeiten per Name zu identifizieren. Dies ist doppelter Schreibaufwand. Im vorliegenden Beispiel muss man zwei mal "GasService" schreiben. Mit der Unterstützung von ECMAScript 6 bzw. von TypeScript wird die Bedienung nun viel vertrauter. So lässt sich mittels des Decorators `@Inject` die Abhängigkeit in den Konstruktor injizieren:
+ Mit der Unterstützung von ECMAScript 6 bzw. von TypeScript wird die Bedienung nun viel vertrauter. So lässt sich mittels des Decorators `@Inject` die Abhängigkeit in den Konstruktor injizieren:
 
 ```js
 class GasService {
@@ -52,8 +60,7 @@ var dashboard = injector.get(Dashboard);
 ```
 > Listing 1: Constructor Injection mit ES6
 
-Die Methode `resolveAndCreate()` erzeugt einen einsatzbereiten Injektor. Die Methode akzeptiert ein Array aus Typen oder Provider.
-Sofern man TypeScript einsetzt, kann man die Schreibweise noch etwas mehr vereinfachen. Durch die Verwendung von Typen, kann man auf den Decorator `@Inject` verzichten:
+Die Methode `resolveAndCreate()` erzeugt einen einsatzbereiten Injector. Die Methode akzeptiert ein Array aus Typen oder Providern. Wird nur ein Typ übergeben, so wird ein entsprechende Provider für diesen Typ erzeugt. Sofern man TypeScript einsetzt, kann man die Schreibweise noch etwas mehr vereinfachen. Durch die Verwendung von Typen, kann man auf den Decorator `@Inject` verzichten:
 
 ```js
 @Injectable()
@@ -66,7 +73,40 @@ class Dashboard {
 > Listing 2: Constructor Injection mit TypeScript
 
 
-Damit dieses Beispiel funktioniert, muss TypeScript einen Hinweis dazu erhalten, dass die Konstruktor mit Dekoratoren versehen werden muss. Dies geschieht mit dem Dekorator '@Injectable()'. Das erzeugte JavaScript aus Listing 1 und Listing 2 ist prin  
+Damit dieses Beispiel funktioniert, muss TypeScript einen Hinweis dazu erhalten, dass die Konstruktor mit Dekoratoren versehen werden soll. Dies geschieht mit dem Dekorator `@Injectable()`. Das erzeugte JavaScript aus Listing 1 und Listing 2 unterscheidet sich schlussendlich kaum voneinander. Auf die Verwendung von `@Injectable()` kann verzichtet werden, sobald ein anderer Decorator die Klasse verziert. Weitere Dekoratoren sind etwa `@Component()`, `@View` oder `@RouteConfig`. Da Angular 2.0 stark auf einen deklarativen Stil mittels Dekoratoren setzt, benötigt man `@Injectable()` eigentlich nur für Service-Klassen.
+
+## Injector, Provider und Dependencies
+
+
+
+
+## Durchstarten
+
+Die Methode `resolveAndCreate()` kann man gut für ein schnelles Experiment oder in einem Unit-Test verwenden. Bei der Erstellung der eigentlichen Anwendung bedient man sich aber der bereits bekannten `boostrap` Methode. Zuvor haben wir bei dieser Methode nur den  ersten Parameter verwendet. Er gibt die Einsteigs-Komponente der Anwendung an - also die Dashboard-Komponente.
+
+```js
+// app.ts
+
+import {bootstrap} from 'angular2/angular2';
+import Dashboard from './components/dashboard/dashboard.component';
+
+bootstrap(Dashboard);
+```
+> Listing X: Starten (bootstrapping) der Anwendung
+
+Als zweiten Parameter akzeptiert die Methode wiederum ein Array aus Typen oder Providern. Sollte die Dashboard-Komponente oder eine andere Komponente den GasService benötigen, so lässt sich dieser wie folgt registrieren:
+
+```js
+import {bootstrap} from 'angular2/angular2';
+import Dashboard from './components/dashboard/dashboard.component';
+import GasService from './models/gasService';
+
+// app.ts
+bootstrap(Dashboard, [GasService]);
+```
+> Listing X: Bootrapping mit Registrierung des Dependency GasService
+
+
 
 
 <hr>
