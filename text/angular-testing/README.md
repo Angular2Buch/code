@@ -41,7 +41,12 @@ var Dashboard = ['GasService', function(GasService) {
 
 Wer das DI-Framework aus AngularJs 1.x kennt, der wird mit Sicherheit auch an dessen Grenzen gestoßen sein. Besonders hinderlich sind fehlende Namespaces und die Notwendigkeit, stets alle Abhängigkeiten per Name zu identifizieren. Dies ist doppelter Schreibaufwand. Im vorliegenden Beispiel muss man zum Beispiel zwei mal "GasService" schreiben.
 
-## Dependency Injection mit Angular 2.0
+## Dependency Injection in Angular 2.0
+
+
+![Screenshot](images/injector.png)
+> Die wichtigsten Bausteine für DI in Angular 2.0
+
 
  Mit der Unterstützung von ECMAScript 6 bzw. von TypeScript wird die Bedienung nun viel vertrauter. So lässt sich mittels des Decorators `@Inject` die Abhängigkeit in den Konstruktor injizieren:
 
@@ -73,9 +78,7 @@ class Dashboard {
 > Listing 2: Constructor Injection mit TypeScript
 
 
-Damit dieses Beispiel funktioniert, muss TypeScript einen Hinweis dazu erhalten, dass die Konstruktor mit Dekoratoren versehen werden soll. Dies geschieht mit dem Dekorator `@Injectable()`. Das erzeugte JavaScript aus Listing 1 und Listing 2 unterscheidet sich schlussendlich kaum voneinander. Auf die Verwendung von `@Injectable()` kann verzichtet werden, sobald ein anderer Decorator die Klasse verziert. Weitere Dekoratoren sind etwa `@Component()`, `@View` oder `@RouteConfig`. Da Angular 2.0 stark auf einen deklarativen Stil mittels Dekoratoren setzt, benötigt man `@Injectable()` eigentlich nur für Service-Klassen.
-
-## Injector, Provider und Dependencies
+Damit dieses Beispiel funktioniert, muss TypeScript einen Hinweis dazu erhalten, dass die Konstruktor mit Dekoratoren versehen werden soll. Dies geschieht mit dem Dekorator `@Injectable()`. Das erzeugte JavaScript aus Listing 1 und Listing 2 unterscheidet sich schlussendlich kaum voneinander. Auf die Verwendung von `@Injectable()` kann verzichtet werden, sobald ein anderer Decorator die Klasse verziert. Weitere Dekoratoren sind etwa `@Component()`, `@View` oder `@RouteConfig`. Da Angular 2.0 stark auf einen deklarativen Stil mittels Dekoratoren setzt, benötigt man `@Injectable()` eigentlich nur für eigene Service-Klassen.
 
 
 
@@ -86,7 +89,6 @@ Die Methode `resolveAndCreate()` kann man gut für ein schnelles Experiment oder
 
 ```js
 // app.ts
-
 import {bootstrap} from 'angular2/angular2';
 import Dashboard from './components/dashboard/dashboard.component';
 
@@ -97,14 +99,49 @@ bootstrap(Dashboard);
 Als zweiten Parameter akzeptiert die Methode wiederum ein Array aus Typen oder Providern. Sollte die Dashboard-Komponente oder eine andere Komponente den GasService benötigen, so lässt sich dieser wie folgt registrieren:
 
 ```js
+// app.ts
 import {bootstrap} from 'angular2/angular2';
 import Dashboard from './components/dashboard/dashboard.component';
 import GasService from './models/gasService';
 
-// app.ts
 bootstrap(Dashboard, [GasService]);
 ```
-> Listing X: Bootrapping mit Registrierung des Dependency GasService
+> Listing X: Bootrapping mit Registrierung der Dependency GasService
+
+
+# Unit-Tests mit Karma
+
+Unit-Tests verbessern die Qualität von Software. Tests beweisen, dass die Software das tut, wofür sie konzipiert wurde. Ebenso dokumentieren Tests fachliches Wissen und den Erkenntnisstand eines Entwicklers, den er zum Zeitpunkt der Erstellung hatte. Wenn man als Entwickler das existierende Wissen nicht durch Tests ausdrückt, ist die Wahrscheinlichkeit sehr hoch, dass das Wissen über die Zeit für einen selbst, für das Team und für das Unternehmen verloren geht. Die Verwendung von Angular erweist sich hierbei als großer Vorteil, da das Framework speziell darauf ausgerichtet ist, gut testbare Module zu erstellen.
+
+Um Unit-Tests für JavaScript/TypeScript auszuführen, verwendet man am Besten einen so genannten Test-Runner. Prinzipiell würde auch nur ein Browser ausreichen. Doch dieses Setup lässt sich schlecht automatisieren. Empfehlenswert ist der Test-Runner "Karma", welcher zusammen mit AngularJS von Google entwickelt wurde. Das Tool basiert auf Node.js 
+und läuft somit auf allen gängigen Betriebssystemen. Erwähnenswert ist die Tatsache, dass Karma einen eigenen Webserver startet und dann einen echten Browser (z.B. den Internet Explorer, Firefox und Chrome) die JavaScript-Dateien ausführen lässt. Der eigene Webserver vermeidet technische Probleme, die man bei der Ausführung per lokalem Dateisystem hätte. 
+
+Die Installation von Karma sowie weiterer Plugins geschieht per NPM:
+````
+npm install jasmine karma karma-chrome-launcher karma-jasmine --dev
+npm install karma-cli -g
+```
+
+Die Datei `package.json` wird dabei um neue "devDependencies" ergänzt. Beim Überprüfen der Datei bietet es sich an, das Start-Script auf "karma start" festzulegen. So kann man später den Testrunner per `npm test` starten:
+
+```
+{
+  [...]
+
+  "devDependencies": {
+    "live-server": "^0.8.2",
+    ---TODO---
+  },
+  "scripts": {
+    "start": "live-server",
+    "test": "karma start"
+  }
+}
+```
+> Listing X: Auszug aus der `package.json`
+
+Anschließend benötigt das Projekt eine Konfigurationsdatei, welche standardmäßig den Namen `karma.conf.js` trägt. Der Befehl `karma init` startet ein Kommandozeilen-Dialog, welcher bei der Erstellung der Datei hilft. Wie schon bei der Verwendung mit SystemJS/JSPM müssen anschließend noch paar Pfade gemappt werden (siehe 1. Artikel). An dieser Stelle ist das Setup zum aktuellen Stand (Alpha-46) noch recht holprig. Wir empfehlen Ihnen aktuell den ["ng2-test-seed"][1] von Julie Ralph, einer sehr bekannten Google-Mitarbeiterin. Kopieren Sie sich aus diesem Github-Repository die beiden Dateien `karma.conf.js` und `karma-test-shim.js`. Die Quellcodebeispiele zu diesem Artikel 
+ 
 
 
 
@@ -121,14 +158,4 @@ bootstrap(Dashboard, [GasService]);
 
 <hr>
 
-[1]: https://angular.io/docs/js/latest/quickstart.html "5 Minuten Schnellstart"
-[2]: https://github.com/ModuleLoader/es6-module-loader "ES6 Module Loader Polyfill"
-[3]: https://github.com/google/traceur-compiler "Traceur"
-[4]: http://babeljs.io/ "Babel"
-[5]: https://github.com/Microsoft/TypeScript/ "TypeScript"
-[6]: https://github.com/systemjs/systemjs "SystemJS"
-[7]: https://github.com/gulpjs/gulp "Gulp"
-[8]: https://github.com/angular/angular "Angular 2.0 Github-Repository"
-[9]: https://code.angularjs.org/ "code.angularjs.org"
-[10]: https://www.npmjs.com/package/systemjs-builder "SystemJS Build Tool"
-[12]: https://www.npmjs.com/package/angular2 "NPM-Paket von Angular 2.0"
+[1]: https://github.com/juliemr/ng2-test-seed "5 Minuten Schnellstart"
