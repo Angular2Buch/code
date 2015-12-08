@@ -79,7 +79,7 @@ class Dashboard {
 > Listing 2: Constructor Injection mit TypeScript
 
 
-Damit dieses Beispiel funktioniert, muss TypeScript einen Hinweis dazu erhalten, dass die Konstruktor mit Dekoratoren versehen werden soll. Dies geschieht mit dem Dekorator `@Injectable()`. Das erzeugte JavaScript aus Listing 1 und Listing 2 unterscheidet sich schlussendlich kaum voneinander. Auf die Verwendung von `@Injectable()` kann verzichtet werden, sobald ein anderer Decorator die Klasse verziert. Weitere Dekoratoren sind etwa `@Component()`, `@View()` oder `@RouteConfig()`. Da Angular 2.0 stark auf einen deklarativen Stil mittels Dekoratoren setzt, benötigt man `@Injectable()` eigentlich nur für eigene Service-Klassen.
+Damit dieses Beispiel funktioniert, muss TypeScript einen Hinweis dazu erhalten, dass die Konstruktor mit Decoratoren versehen werden soll. Dies geschieht mit dem Decorator `@Injectable()`. Das erzeugte JavaScript aus Listing 1 und Listing 2 unterscheidet sich schlussendlich kaum voneinander. Auf die Verwendung von `@Injectable()` kann verzichtet werden, sobald ein anderer Decorator die Klasse verziert. Weitere Decoratoren sind etwa `@Component()`, `@View()` oder `@RouteConfig()`. Da Angular 2.0 stark auf einen deklarativen Stil mittels Decoratoren setzt, benötigt man `@Injectable()` eigentlich nur für eigene Service-Klassen.
 
 Der Injector versteht eine Reihe von Baunleitungen. Hierzu verwendet man die Methode `provide()`. Das Beispiel aus Listing 1 kann auch in einer längeren Syntax ausgedrückt werden. Soll also ein **Token** als Klasse aufgelöst werden, so verwendet man **`useClass`**:
 
@@ -309,7 +309,7 @@ describe('dashboard component', () => {
 ```
 > Listing 9: Verwendung von `beforeEachProviders()` und `inject()`
 
-Beachten Sie auch die Verwendung der Methode `inject()`. Sie ist dazu gedacht, in einer `beforeEach()` oder `it()` eine Abhängigkeit anzufordern. Im den Quelltext-Dokumentation von Angular findet sich der Hinweis, dass es ggf. in Zukunft noch eine Syntax mit Dekoratoren geben wird:
+Beachten Sie auch die Verwendung der Methode `inject()`. Sie ist dazu gedacht, in einer `beforeEach()` oder `it()` eine Abhängigkeit anzufordern. Im den Quelltext-Dokumentation von Angular findet sich der Hinweis, dass es ggf. in Zukunft noch eine Syntax mit Decoratoren geben wird:
 
 ```javascript
 // aktuell
@@ -379,7 +379,7 @@ describe('GasService', () => {
 
 ## Fazit
 
-Mit Version 2 hat das Angular-Team viele technische Schwächen von AngularJS angegangen. Das neue Konzept wirkt wie aus einem Guss: Typen und Dekoratoren durch TypeScript, modularer Code durch SystemJS und auf Basis dessen ein generalüberholtes DI-System. Das neue Prinzip leuchtet schnell ein und die Testbarkeit profitiert von dieser neuen Umsetzung. Die neuen Provider begegnen uns an vielen Stellen bei der täglichen Arbeit mit Angular 2. Ein Grundverständnis der dahinterliegenden Mechanismen erleichtert den Einstieg entsprechend signifikant.
+Mit Version 2 hat das Angular-Team viele technische Schwächen von AngularJS angegangen. Das neue Konzept wirkt wie aus einem Guss: Typen und Decoratoren durch TypeScript, modularer Code durch SystemJS und auf Basis dessen ein generalüberholtes DI-System. Das neue Prinzip leuchtet schnell ein und die Testbarkeit profitiert von dieser neuen Umsetzung. Die neuen Provider begegnen uns an vielen Stellen bei der täglichen Arbeit mit Angular 2. Ein Grundverständnis der dahinterliegenden Mechanismen erleichtert den Einstieg entsprechend signifikant.
 
 In der nächsten Ausgabe der __Web und Mobile Developer__ wird es wieder mehr um sichtbare Dinge in Angular 2 gehen. Wir betrachten dann die Formularverarbeitung und Validierung von Daten mit dem neuen Framework. Das "Cars Dashboard" wir dabei langsam zu einer vollwertigen Anwendung. Seien sie gespannt.
 
