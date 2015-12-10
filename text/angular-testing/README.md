@@ -318,6 +318,14 @@ inject([DashboardComponent], (dashboard: DashboardComponent) => { /* [...] */ })
 @Inject(dashboard: DashboardComponent) => { ... }
 ```
 
+
+![Screenshot](images/screenshot_karma1.png)
+> Screenshot: Karma führt Unit-Tests aus
+
+![Screenshot](images/screenshot_karma2.png)
+> Screenshot: Karma führt Unit-Tests aus
+
+
 ## Asynchroner Code testen
 
 Oft muss man in der JavaScript-Welt auf etwas warten. Dies kann unter anderem die Antwort auf einen AJAX-Call sein, wie es auch unsere Anwendung bei den Preisdaten tut. Um das Problem abzubilden, verwendet man üblicherweise Callbacks, Promises oder Obvervables. Allen Herangehensweisen ist gemein, dass der ausgeführte Code asynchron abläuft. Der Ansatz in Angular 1.x war es, asynchronen Code in ein synchrones Format zu pressen. Man musste dazu in Unit-Tests speziell auf den asynchronen Code Rücksicht nehmen und zum Beispiel mit `$rootScope.$digest()`, `$httpBackend.flush()` oder `$timeout.flush()` manuell die Promises zu erfüllen um anschließend das Ergebnis überprüfen zu können. Dieser Ansatz ermöglicht zunächst elegante und leicht verständliche Tests. Doch gerade dieser Ansatz kann bei komplexeren Aufgabenstellungen eine Lösung erschweren, da das eigentliche Problem hinter der "synchronen Fassade" versteckt wird.
