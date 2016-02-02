@@ -51,6 +51,11 @@ export class UserForm { }
 Nun wollen wir natürlich auch in der Lage sein, beide Ansichten gleichzeitig zu verwenden, damit wir durch die Anwendung navigieren können. Hier kommt das Prinzip des "Routings" in Spiel. Als Routing bezeichnen wir das Laden von Bereichen der Anwendung abhängig vom Zustand. Im  Prinzip geschieht das selbe, was wir auch manuell gemacht haben, Komponenten werden miteinander ausgetauscht. Der Dienst, welcher den Zustand der Angular-Anwendung verwaltet nennt sich __Router__. Mittels Routing wollen wir sowohl Dashboard, Registrierungs-Formular sowie eine Detailansicht erreichbar machen. Alle Ansichten sollen vom Nutzer über verschiedene URLs aufrufbar sein.
 
 
+# Routing
+
+Das Prinzip der Single-Page-Applikation sieht eine einzige HTML-Seite vor, deren tatsächliche Inhalte asynchron nachgeladen werden. Dabei findet in der Regel kein "hartes" Neuladen der Seite statt. Die HTML5 History API, welche in allen modernen Browsern implementiert ist, liefert die technische Grundlage um das Routing adäquat anzugehen (Default: `PathLocationStrategy`). Für ältere Browser existieren Fallbacks, wie z.B. die Verwendung von URLs mit einem #Hash (`HashLocationStrategy`). 
+
+In Angular lässt sich der Router je nach Bedarf austauschen. Der standardmäßig vorhandene Router nennt sich "Component Router". Er kann mit verschiedenen Strategien verwendet werden, welche Bestimmen, wie der Router seinen Zustand persistiert. Standardmäßig wird die HTML5 History API (`PathLocationStrategy`) aktiviert. Es werden also zur Identifikation der einzelner Zustände gut lesbare URLs verwendet. In den meisten Fällen wird man genau diesen Router benötigen, denn er ist eng mit dem Prinzip der Komponenten verzahnt und ermöglicht zugleich optisch ansprechende und damit auch suchmaschinenoptimierte URLs. 
 
 
 ## Fazit und Ausblick
